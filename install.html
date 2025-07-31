@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Install | Termux Void</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="assets/img/logo.png" alt="Termux Void Logo">
+            <h1>Termux Void</h1>
+        </div>
+        <nav>
+            <a href="/">Home</a>
+            <a href="/install.html" class="active">Install</a>
+            <a href="/docs.html">Packages</a>
+            <a href="https://t.me/nullxvoid" target="_blank">Community</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="guide">
+            <h2>Install Termux Void</h2>
+            <div class="terminal">
+                <code>
+                    <span class="comment"># Run this one-liner in Termux:</span><br>
+                    curl -sL https://termuxvoid.github.io/install.sh | bash
+                </code>
+            </div>
+
+            <h3>Manual Installation</h3>
+            <ol>
+                <li>Add the repository:
+                    <div class="terminal">
+                        <code>echo "deb [trusted=yes] https://termuxvoid.github.io/repo termuxvoid main" > $PREFIX/etc/apt/sources.list.d/termuxvoid.list</code>
+                    </div>
+                </li>
+                <li>Add the GPG key:
+                    <div class="terminal">
+                        <code>curl -sL https://termuxvoid.github.io/repo/termuxvoid.key | apt-key add -</code>
+                    </div>
+                </li>
+                <li>Update packages:
+                    <div class="terminal">
+                        <code>apt update</code>
+                    </div>
+                </li>
+            </ol>
+        </section>
+    </main>
+
+    <footer>
+        <p>Need help? <a href="https://t.me/nullxvoid">Join our Telegram</a></p>
+    </footer>
+</body>
+</html>
