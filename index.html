@@ -1,851 +1,303 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TermuxVoid | Advanced Tools Beyond Official Repos</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root {
-            --primary: #6a1b9a;
-            --secondary: #9c27b0;
-            --dark: #121212;
-            --light: #f5f5f5;
-            --accent: #00e676;
-            --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        body {
-            background-color: var(--dark);
-            color: var(--light);
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-        
-        /* Header */
-        header {
-            background: rgba(18, 18, 18, 0.9);
-            backdrop-filter: blur(10px);
-            position: fixed;
-            width: 100%;
-            z-index: 1000;
-            padding: 15px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .logo img {
-            height: 40px;
-        }
-        
-        .logo-text {
-            font-size: 1.5rem;
-            font-weight: 700;
-            background: var(--gradient);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-        
-        .nav-links {
-            display: flex;
-            gap: 30px;
-        }
-        
-        .nav-links a {
-            color: var(--light);
-            text-decoration: none;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-        
-        .nav-links a:hover {
-            color: var(--accent);
-        }
-        
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            background: var(--accent);
-            bottom: -5px;
-            left: 0;
-            transition: width 0.3s ease;
-        }
-        
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-        
-        .mobile-menu-btn {
-            display: none;
-            background: none;
-            border: none;
-            color: var(--light);
-            font-size: 1.5rem;
-            cursor: pointer;
-        }
-        
-        /* Hero Section */
-        .hero {
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at 30% 50%, rgba(106, 27, 154, 0.3), transparent 70%);
-            z-index: -1;
-        }
-        
-        .hero-content {
-            max-width: 600px;
-        }
-        
-        .hero h1 {
-            font-size: 3.5rem;
-            margin-bottom: 20px;
-            line-height: 1.2;
-        }
-        
-        .hero h1 span {
-            background: var(--gradient);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-        
-        .hero p {
-            font-size: 1.2rem;
-            margin-bottom: 30px;
-            opacity: 0.9;
-        }
-        
-        .cta-buttons {
-            display: flex;
-            gap: 20px;
-        }
-        
-        .btn {
-            padding: 12px 25px;
-            border-radius: 50px;
-            font-weight: 600;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .btn-primary {
-            background: var(--gradient);
-            color: white;
-            box-shadow: 0 4px 15px rgba(106, 27, 154, 0.4);
-        }
-        
-        .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(106, 27, 154, 0.6);
-        }
-        
-        .btn-secondary {
-            background: transparent;
-            color: var(--light);
-            border: 2px solid rgba(255, 255, 255, 0.2);
-        }
-        
-        .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: rgba(255, 255, 255, 0.4);
-        }
-        
-        .hero-image {
-            position: absolute;
-            right: -50px;
-            bottom: -50px;
-            width: 600px;
-            opacity: 0.8;
-            z-index: -1;
-        }
-        
-        /* Features Section */
-        .section {
-            padding: 100px 0;
-        }
-        
-        .section-title {
-            text-align: center;
-            margin-bottom: 60px;
-        }
-        
-        .section-title h2 {
-            font-size: 2.5rem;
-            margin-bottom: 15px;
-            background: var(--gradient);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            display: inline-block;
-        }
-        
-        .section-title p {
-            max-width: 700px;
-            margin: 0 auto;
-            opacity: 0.8;
-        }
-        
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-        }
-        
-        .feature-card {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 15px;
-            padding: 30px;
-            transition: all 0.3s ease;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .feature-card:hover {
-            transform: translateY(-10px);
-            background: rgba(255, 255, 255, 0.1);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-        }
-        
-        .feature-icon {
-            font-size: 2.5rem;
-            margin-bottom: 20px;
-            background: var(--gradient);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-        
-        .feature-card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 15px;
-        }
-        
-        .feature-card p {
-            opacity: 0.8;
-        }
-        
-        /* Installation Section */
-        .installation {
-            background: rgba(106, 27, 154, 0.1);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .installation::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwYXR0ZXJuIiB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxyZWN0IHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjAzKSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3QgZmlsbD0idXJsKCNwYXR0ZXJuKSIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIvPjwvc3ZnPg==');
-            z-index: -1;
-        }
-        
-        .code-block {
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 10px;
-            padding: 20px;
-            font-family: 'Courier New', Courier, monospace;
-            border-left: 4px solid var(--accent);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .code-block::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
-            animation: shine 2s infinite;
-        }
-        
-        @keyframes shine {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
-        }
-        
-        .code-block code {
-            display: block;
-            color: var(--accent);
-            font-size: 1rem;
-            line-height: 1.8;
-        }
-        
-        .code-block .comment {
-            color: #7f7f7f;
-            font-style: italic;
-        }
-        
-        .installation-steps {
-            display: grid;
-            gap: 30px;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        
-        /* FAQ Section */
-        .faq-item {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 10px;
-            margin-bottom: 15px;
-            overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .faq-question {
-            padding: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-        
-        .faq-question:hover {
-            background: rgba(255, 255, 255, 0.1);
-        }
-        
-        .faq-question i {
-            transition: transform 0.3s ease;
-        }
-        
-        .faq-answer {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease;
-            padding: 0 20px;
-            border-top: 1px solid transparent;
-        }
-        
-        .faq-item.active .faq-question {
-            background: rgba(255, 255, 255, 0.1);
-        }
-        
-        .faq-item.active .faq-question i {
-            transform: rotate(180deg);
-        }
-        
-        .faq-item.active .faq-answer {
-            max-height: 500px;
-            padding: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        /* Footer */
-        footer {
-            background: rgba(0, 0, 0, 0.3);
-            padding: 60px 0 30px;
-            position: relative;
-        }
-        
-        .footer-content {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 40px;
-            margin-bottom: 40px;
-        }
-        
-        .footer-column h3 {
-            font-size: 1.2rem;
-            margin-bottom: 20px;
-            color: var(--accent);
-        }
-        
-        .footer-links {
-            list-style: none;
-        }
-        
-        .footer-links li {
-            margin-bottom: 10px;
-        }
-        
-        .footer-links a {
-            color: var(--light);
-            text-decoration: none;
-            opacity: 0.8;
-            transition: all 0.3s ease;
-        }
-        
-        .footer-links a:hover {
-            opacity: 1;
-            color: var(--accent);
-            padding-left: 5px;
-        }
-        
-        .social-links {
-            display: flex;
-            gap: 15px;
-            margin-top: 20px;
-        }
-        
-        .social-links a {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.1);
-            color: var(--light);
-            transition: all 0.3s ease;
-        }
-        
-        .social-links a:hover {
-            background: var(--gradient);
-            transform: translateY(-3px);
-        }
-        
-        .footer-bottom {
-            text-align: center;
-            padding-top: 30px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            opacity: 0.7;
-            font-size: 0.9rem;
-        }
-        
-        /* Animations */
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
-        }
-        
-        .floating {
-            animation: float 6s ease-in-out infinite;
-        }
-        
-        /* Responsive */
-        @media (max-width: 992px) {
-            .hero h1 {
-                font-size: 2.8rem;
-            }
-            
-            .hero-image {
-                width: 450px;
-                opacity: 0.4;
-            }
-        }
-        
-        @media (max-width: 768px) {
-            .nav-links {
-                position: fixed;
-                top: 80px;
-                left: -100%;
-                width: 100%;
-                height: calc(100vh - 80px);
-                background: var(--dark);
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-                gap: 30px;
-                transition: all 0.5s ease;
-            }
-            
-            .nav-links.active {
-                left: 0;
-            }
-            
-            .mobile-menu-btn {
-                display: block;
-            }
-            
-            .hero {
-                text-align: center;
-                padding-top: 100px;
-            }
-            
-            .hero-content {
-                max-width: 100%;
-            }
-            
-            .cta-buttons {
-                justify-content: center;
-            }
-            
-            .hero-image {
-                display: none;
-            }
-        }
-        
-        @media (max-width: 576px) {
-            .hero h1 {
-                font-size: 2.2rem;
-            }
-            
-            .btn {
-                padding: 10px 20px;
-                font-size: 0.9rem;
-            }
-            
-            .section-title h2 {
-                font-size: 2rem;
-            }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TermuxVoid APT Repository</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background: #0d1117;
+      color: #e6edf3;
+    }
+    a { color: #ffd700; text-decoration: none; }
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 1.5rem;
+      background: #161b22;
+      border-bottom: 1px solid #222;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    header img {
+      height: 36px;
+      margin-right: 0.6rem;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: #ffd700;
+    }
+    nav {
+      display: flex;
+    }
+    nav a {
+      margin: 0 0.6rem;
+      font-weight: 600;
+      color: #e6edf3;
+    }
+    /* Mobile Nav */
+    @media (max-width: 768px) {
+      nav {
+        display: none;
+        flex-direction: column;
+        background: #161b22;
+        position: absolute;
+        top: 60px;
+        right: 0;
+        width: 200px;
+        padding: 1rem;
+        border-left: 1px solid #222;
+      }
+      nav.show { display: flex; }
+      .menu-btn {
+        display: block;
+        background: none;
+        border: none;
+        color: #ffd700;
+        font-size: 1.5rem;
+        cursor: pointer;
+      }
+    }
+    @media (min-width: 769px) {
+      .menu-btn { display: none; }
+    }
+    .hero {
+      text-align: center;
+      padding: 2.5rem 1.2rem;
+    }
+    .hero h1 {
+      font-size: 2rem;
+      color: #ffd700;
+      margin: 1rem 0;
+    }
+    .badges a img {
+      margin: 0.3rem;
+      height: 28px;
+    }
+    section {
+      max-width: 1000px;
+      margin: 2rem auto;
+      padding: 1.5rem;
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 12px;
+    }
+    section h2 {
+      color: #ffd700;
+      margin-bottom: 1rem;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+      font-size: 0.95rem;
+    }
+    table th, table td {
+      padding: 0.6rem;
+      border-bottom: 1px solid #333;
+      text-align: left;
+    }
+    table th { color: #ffd700; }
+    pre {
+      background: #161b22;
+      padding: 0.8rem;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-size: 0.9rem;
+    }
+    .code-block {
+      position: relative;
+      margin: 1rem 0;
+    }
+    .copy-btn {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      background: #ffd700;
+      border: none;
+      padding: 3px 7px;
+      font-size: 0.8rem;
+      border-radius: 5px;
+      cursor: pointer;
+      color: #000;
+      transition: 0.2s;
+    }
+    .copy-btn:hover { background: #e6c200; }
+    details {
+      background: #161b22;
+      border-radius: 8px;
+      margin: 0.6rem 0;
+      padding: 0.6rem 0.8rem;
+      cursor: pointer;
+    }
+    summary { font-weight: 600; color: #ffd700; }
+    .community { text-align: center; }
+    footer {
+      background: #161b22;
+      padding: 2rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      border-top: 1px solid #222;
+    }
+    footer h3 {
+      color: #ffd700;
+      margin-bottom: 0.6rem;
+    }
+    footer ul {
+      list-style: none;
+      padding: 0;
+    }
+    footer ul li { margin: 0.3rem 0; }
+    footer .credits {
+      grid-column: 1/-1;
+      text-align: center;
+      margin-top: 1rem;
+      font-size: 0.85rem;
+      opacity: 0.7;
+    }
+  </style>
 </head>
 <body>
-    <!-- Header -->
-    <header>
-    <div class="container">
-        <nav>
-            <div class="logo">
-                <img src="https://raw.githubusercontent.com/termuxvoid/repo/main/assets/termuxvoid_logo.png" alt="TermuxVoid Logo">
-                <span class="logo-text">TermuxVoid</span>
-            </div>
-            <ul class="nav-links">
-                <li><a href="#about">About</a></li>
-               
-                <li><a href="#installation">Installation</a></li>
-                <li><a href="#faq">FAQ</a></li>
-                <li><a href="#support">Support</a></li>
-            </ul>
-            <button class="mobile-menu-btn">
-                <i class="fas fa-bars"></i>
-            </button>
-        </nav>
+
+  <header>
+    <div class="logo">
+      <img src="https://termuxvoid.github.io/repo/assets/termuxvoid_logo.png" alt="TermuxVoid Logo">
+      TermuxVoid
     </div>
-</header>
+    <button class="menu-btn" onclick="toggleMenu()">☰</button>
+    <nav id="navbar">
+      <a href="#overview">Overview</a>
+      <a href="#tools">Tools</a>
+      <a href="#installation">Installation</a>
+      <a href="#faq">FAQ</a>
+      <a href="#support">Support</a>
+    </nav>
+  </header>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="container">
-            <div class="hero-content">
-                <h1>Where <span>Termux</span> Meets the <span>Void</span></h1>
-                <p>Advanced security and hacking tools beyond official repositories. Enhanced performance builds specifically optimized for Termux.</p>
-                <div class="cta-buttons">
-                    <a href="#installation" class="btn btn-primary">
-                        <i class="fas fa-download"></i> Install Now
-                    </a>
-                    <a href="https://github.com/termuxvoid/repo.git" class="btn btn-secondary">
-                        <i class="fab fa-github"></i> View Repo
-                    </a>
-                </div>
-            </div>
-            <img src="https://via.placeholder.com/600x600/6a1b9a/ffffff?text=CLI" alt="Termux Void" class="hero-image floating">
-        </div>
-    </section>
+  <div class="hero">
+    <h1>TermuxVoid APT Repository</h1>
+    <p>Advanced Security Tools for Termux - Beyond Official Repositories</p>
+    <div class="badges">
+      <a href="https://github.com/TermuxVoid/repo/stargazers">
+        <img src="https://img.shields.io/github/stars/TermuxVoid/repo?style=for-the-badge&logo=github&color=ffd700&labelColor=0d1117" alt="GitHub Stars">
+      </a>
+      <a href="https://github.com/TermuxVoid/repo/blob/main/LICENSE">
+        <img src="https://img.shields.io/badge/License-BSD_3--Clause-blue?style=for-the-badge&logo=opensourceinitiative" alt="License">
+      </a>
+    </div>
+    <p><b>Quick Start</b> • <a href="https://github.com/termuxvoid/repo.git">View Repo →</a></p>
+  </div>
 
-    <!-- About Section -->
-    <section id="about" class="section">
-        <div class="container">
-            <div class="section-title">
-                <h2>About TermuxVoid</h2>
-                <p>The evolution of Alienkrishn's repository, now offering enhanced tools and regular maintenance for the Termux community.</p>
-            </div>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <h3>70+ Security Tools</h3>
-                    <p>Same trusted sources from Alienkrishn's legacy repository, now with improved stability and performance.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-tachometer-alt"></i>
-                    </div>
-                    <h3>Enhanced Performance</h3>
-                    <p>Packages specifically optimized for Termux environment to ensure smooth operation on mobile devices.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-sync-alt"></i>
-                    </div>
-                    <h3>Regular Maintenance</h3>
-                    <p>Weekly updates with new tools and urgent security patches to keep your toolkit current and secure.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-flask"></i>
-                    </div>
-                    <h3>Void-Tested</h3>
-                    <p>All packages undergo rigorous testing to ensure stability while maintaining cutting-edge functionality.</p>
-                </div>
-            </div>
-        </div>
-    </section>
+  <section id="overview">
+    <h2>🔍 Project Overview</h2>
+    <p>TermuxVoid provides optimized security tools for Termux with enhanced performance and reliability. Now featuring <b>100+ tools</b>!</p>
+  </section>
 
-    <!-- Installation Section -->
-    <section id="installation" class="section installation">
-        <div class="container">
-            <div class="section-title">
-                <h2>Installation</h2>
-                <p>Get started with TermuxVoid in just a few simple steps.</p>
-            </div>
-            <div class="installation-steps">
-                <div class="code-block">
-                    <code>
-                        <span class="comment"># Add TermuxVoid repository to your Termux installation</span><br>
-                        curl -sL https://termuxvoid.github.io/repo/install.sh | bash
-                    </code>
-                </div>
-                <div class="code-block">
-                    <code>
-                        <span class="comment"># Update package lists after adding the repo</span><br>
-                        pkg update
-                    </code>
-                </div>
-                <div class="code-block">
-                    <code>
-                        <span class="comment"># Install any tool from the repository</span><br>
-                        pkg install &lt;tool-name&gt;
-                    </code>
-                </div>
-            </div>
-        </div>
-    </section>
+  <section id="tools">
+    <h2>✨ Featured Tools</h2>
+    <table>
+      <tr><th>Tool</th><th>Category</th><th>Description</th></tr>
+      <tr><td><b>Metasploit Framework</b></td><td>Exploitation</td><td>Industry-standard penetration testing tool</td></tr>
+      <tr><td><b>Burp Suite</b></td><td>Web Security</td><td>Professional web vulnerability scanner</td></tr>
+      <tr><td><b>Ghidra</b></td><td>Reverse Engineering</td><td>NSA's reverse engineering framework</td></tr>
+      <tr><td><b>THC Hydra</b></td><td>Password Cracking</td><td>Network login cracker</td></tr>
+      <tr><td><b>SQLMap</b></td><td>Web Security</td><td>Automated SQL injection tool</td></tr>
+    </table>
+    <p style="margin-top:1rem;"><a href="https://github.com/TermuxVoid/repo/blob/main/PACKAGES.md">View Complete Package List »</a></p>
+  </section>
 
-    <!-- FAQ Section -->
-    <section id="faq" class="section">
-        <div class="container">
-            <div class="section-title">
-                <h2>Frequently Asked Questions</h2>
-                <p>Common questions from the Alienkrishn legacy repository.</p>
-            </div>
-            <div class="faq-container">
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <span>Is TermuxVoid safe to use?</span>
-                        <i class="fas fa-chevron-down"></i>
-                    </div>
-                    <div class="faq-answer">
-                        <p>All packages are maintained by the same trusted team behind Alienkrishn's repository. We prioritize security and stability in all our packages.</p>
-                    </div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <span>How often are packages updated?</span>
-                        <i class="fas fa-chevron-down"></i>
-                    </div>
-                    <div class="faq-answer">
-                        <p>We provide weekly updates for all packages, plus urgent security patches as needed. Our maintenance schedule is more regular than the original repository.</p>
-                    </div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <span>Can I request new tools to be added?</span>
-                        <i class="fas fa-chevron-down"></i>
-                    </div>
-                    <div class="faq-answer">
-                        <p>Yes! Message @nullxvoid on Telegram with your tool requests. We evaluate all suggestions based on community interest and technical feasibility.</p>
-                    </div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <span>What's the license for these packages?</span>
-                        <i class="fas fa-chevron-down"></i>
-                    </div>
-                    <div class="faq-answer">
-                        <p>TermuxVoid maintains the same BSD 3-Clause license as the original Alienkrishn repository. You can view the full license text in our GitHub repository.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+  <section id="installation">
+    <h2>🚀 Quick Start</h2>
+    <div class="code-block">
+      <button class="copy-btn" onclick="copyCode(this)">📋</button>
+      <pre><code># Add repository
+curl -sL https://termuxvoid.github.io/repo/install.sh | bash</code></pre>
+    </div>
+    <div class="code-block">
+      <button class="copy-btn" onclick="copyCode(this)">📋</button>
+      <pre><code># Install tools
+pkg install &lt;tool name&gt;</code></pre>
+    </div>
+  </section>
 
-    <!-- Support Section -->
-    <section id="support" class="section">
-        <div class="container">
-            <div class="section-title">
-                <h2>Support Our Work</h2>
-                <p>Help us maintain and improve TermuxVoid for the community.</p>
-            </div>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fab fa-github"></i>
-                    </div>
-                    <h3>Star on GitHub</h3>
-                    <p>Show your support by starring our repository. It helps more users discover TermuxVoid.</p>
-                    <a href="https://github.com/termuxvoid/repo" class="btn btn-secondary" style="margin-top: 15px;">
-                        <i class="fab fa-github"></i> Star Repo
-                    </a>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-heart"></i>
-                    </div>
-                    <h3>Join Community</h3>
-                    <p>Connect with other users and get support through our Telegram channel.</p>
-                    <a href="https://t.me/nullxvoid" class="btn btn-secondary" style="margin-top: 15px;">
-                        <i class="fab fa-telegram"></i> Join Telegram
-                    </a>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-share-alt"></i>
-                    </div>
-                    <h3>Spread the Word</h3>
-                    <p>Share TermuxVoid with your friends and on social media to grow our community.</p>
-                    <div class="social-links">
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-reddit"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+  <section id="faq">
+    <h2>❓ FAQ</h2>
+    <details>
+      <summary>Are these tools legal to use?</summary>
+      <p>All tools are for <b>legal security research and ethical hacking purposes only</b>. Always obtain authorization before testing systems.</p>
+    </details>
+    <details>
+      <summary>How often are tools updated?</summary>
+      <ul>
+        <li>Security patches within 24 hours</li>
+        <li>Version updates every Sunday</li>
+        <li>Emergency fixes as needed</li>
+      </ul>
+    </details>
+    <details>
+      <summary>Can I request new tools?</summary>
+      <p>Yes! Submit requests via:</p>
+      <ul>
+        <li>GitHub Issues</li>
+        <li>Telegram @nullxvoid</li>
+        <li>Email: termuxvoid@proton.me</li>
+      </ul>
+    </details>
+  </section>
 
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-column">
-                    <h3>TermuxVoid</h3>
-                    <p>Where Termux meets the Void - Advanced tools beyond official repositories.</p>
-                    <div class="social-links">
-                        <a href="https://github.com/termuxvoid"><i class="fab fa-github"></i></a>
-                        <a href="https://t.me/nullxvoid"><i class="fab fa-telegram"></i></a>
-                        <a href="https://youtube.com/@alienkrishnorg"><i class="fab fa-youtube"></i></a>
-                        <a href="https://www.instagram.com/alienkrishn?igsh=OThodWlsMjhkcjBs"><i class="fab fa-instagram"></i></a>
-                    </div>
-                </div>
-                <div class="footer-column">
-                    <h3>Quick Links</h3>
-                    <ul class="footer-links">
-                        <li><a href="#about">About</a></li>
-                        <li><a href="#installation">Installation</a></li>
-                        <li><a href="#faq">FAQ</a></li>
-                    </ul>
-                </div>
-                <div class="footer-column">
-                    <h3>Resources</h3>
-                    <ul class="footer-links">
-                        <li><a href="https://github.com/termuxvoid/repo">GitHub Repo</a></li>
-                        <li><a href="https://github.com/termuxvoid/repo/blob/main/PACKAGES.md">Tool List</a></li>
-                    </ul>
-                </div>
-                
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2025 TermuxVoid. All rights reserved. Maintained by the Void Team.</p>
-            </div>
-        </div>
-    </footer>
+  <section id="support" class="community">
+    <h2>🌐 Support & Community</h2>
+    <a href="https://t.me/nullxvoid">Telegram</a> ·
+    <a href="https://youtube.com/@alienkrishnorg">YouTube</a> ·
+    <a href="https://github.com/TermuxVoid/repo/issues">GitHub Issues</a>
+    <p style="margin-top:1rem;">Support the project: ⭐ Star this repository · 🐛 Report issues responsibly · 📢 Share with communities · 💰 Join us on Telegram</p>
+  </section>
 
-    <script>
-        // Mobile Menu Toggle
-        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
-        const navLinks = document.querySelector('.nav-links');
-        
-        mobileMenuBtn.addEventListener('click', () => {
-            navLinks.classList.toggle('active');
-            mobileMenuBtn.innerHTML = navLinks.classList.contains('active') ? 
-                '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
-        });
-        
-        // FAQ Accordion
-        const faqItems = document.querySelectorAll('.faq-item');
-        
-        faqItems.forEach(item => {
-            const question = item.querySelector('.faq-question');
-            
-            question.addEventListener('click', () => {
-                // Close all other items
-                faqItems.forEach(otherItem => {
-                    if (otherItem !== item && otherItem.classList.contains('active')) {
-                        otherItem.classList.remove('active');
-                    }
-                });
-                
-                // Toggle current item
-                item.classList.toggle('active');
-            });
-        });
-        
-        // Smooth scrolling for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                
-                if (navLinks.classList.contains('active')) {
-                    navLinks.classList.remove('active');
-                    mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
-                }
-                
-                const targetId = this.getAttribute('href');
-                const targetElement = document.querySelector(targetId);
-                
-                if (targetElement) {
-                    window.scrollTo({
-                        top: targetElement.offsetTop - 80,
-                        behavior: 'smooth'
-                    });
-                }
-            });
-        });
-        
-        // Add scroll animation to elements
-        const animateOnScroll = () => {
-            const elements = document.querySelectorAll('.feature-card, .section-title, .code-block');
-            
-            elements.forEach(element => {
-                const elementPosition = element.getBoundingClientRect().top;
-                const windowHeight = window.innerHeight;
-                
-                if (elementPosition < windowHeight - 100) {
-                    element.style.opacity = '1';
-                    element.style.transform = 'translateY(0)';
-                }
-            });
-        };
-        
-        // Set initial state for animation
-        document.querySelectorAll('.feature-card, .section-title, .code-block').forEach(element => {
-            element.style.opacity = '0';
-            element.style.transform = 'translateY(30px)';
-            element.style.transition = 'all 0.6s ease';
-        });
-        
-        window.addEventListener('scroll', animateOnScroll);
-        window.addEventListener('load', animateOnScroll);
-    </script>
+  <footer>
+    <div>
+      <h3>TermuxVoid</h3>
+      <p>Advanced Termux tools beyond official repos. Built with ❤️ for security researchers.</p>
+    </div>
+    <div>
+      <h3>Quick Links</h3>
+      <ul>
+        <li><a href="#overview">Overview</a></li>
+        <li><a href="#tools">Tools</a></li>
+        <li><a href="#installation">Installation</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ul>
+    </div>
+    <div>
+      <h3>Resources</h3>
+      <ul>
+        <li><a href="https://github.com/termuxvoid/repo">GitHub Repo</a></li>
+        <li><a href="https://github.com/TermuxVoid/repo/blob/main/PACKAGES.md">Tool List</a></li>
+      </ul>
+    </div>
+    <div class="credits">
+      © 2025 TermuxVoid. Maintained by the Void Team.
+    </div>
+  </footer>
+
+  <script>
+    function toggleMenu() {
+      document.getElementById("navbar").classList.toggle("show");
+    }
+    function copyCode(button) {
+      const code = button.nextElementSibling.innerText;
+      navigator.clipboard.writeText(code).then(() => {
+        button.innerText = "✅";
+        setTimeout(() => (button.innerText = "📋"), 1500);
+      });
+    }
+  </script>
 </body>
 </html>
