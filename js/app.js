@@ -77,7 +77,7 @@ const App = (() => {
       : '';
 
     return `
-      <div class="tool-card" style="animation-delay:${delay}s">
+      <a class="tool-card" href="tool.html?name=${encodeURIComponent(pkg.name)}" style="animation-delay:${delay}s;text-decoration:none;color:inherit">
         <div class="tool-card__header">
           <span class="tool-card__name">${escapeHtml(pkg.name)}</span>
           ${pkg.version ? `<span class="tool-card__version">v${escapeHtml(pkg.version)}</span>` : ''}
@@ -86,11 +86,11 @@ const App = (() => {
         <p class="tool-card__desc">${escapeHtml(pkg.description)}</p>
         <div class="tool-card__footer">
           ${homepageLink}
-          <button class="tool-card__install" onclick="App.copyInstall(this,'${escapeHtml(installCmd)}')" title="Copy install command">
+          <span class="tool-card__install" onclick="event.preventDefault();event.stopPropagation();App.copyInstall(this,'${escapeHtml(installCmd)}')" title="Copy install command">
             $ ${escapeHtml(installCmd)}
-          </button>
+          </span>
         </div>
-      </div>
+      </a>
     `;
   }
 
@@ -133,11 +133,12 @@ const App = (() => {
   /* --- Copy Install Command --- */
   function copyInstall(btn, cmd) {
     navigator.clipboard.writeText(cmd).then(() => {
+      const orig = btn.textContent;
       btn.textContent = 'Copied!';
-      btn.classList.add('copied');
+      btn.style.color = 'var(--success)';
       setTimeout(() => {
-        btn.textContent = '$ ' + cmd;
-        btn.classList.remove('copied');
+        btn.textContent = orig;
+        btn.style.color = '';
       }, 1500);
     });
   }

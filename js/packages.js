@@ -42,12 +42,19 @@ const PackagesParser = (() => {
     return {
       name: pkg.Package || '',
       version: pkg.Version || '',
+      architecture: pkg.Architecture || '',
       description: pkg.Description || '',
       homepage: pkg.Homepage || '',
       section: pkg.Section || 'other',
+      priority: pkg.Priority || '',
       depends: pkg.Depends || '',
       maintainer: pkg.Maintainer || '',
+      filename: pkg.Filename || '',
       size: pkg.Size || '0',
+      md5: pkg.MD5Sum || '',
+      sha1: pkg.SHA1 || '',
+      sha256: pkg.SHA256 || '',
+      sha512: pkg.SHA512 || '',
     };
   }
 

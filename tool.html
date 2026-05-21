@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0d1117">
+  <title>Tool Details - TermuxVoid</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ========== Header ========== -->
+  <header class="header">
+    <a class="header__logo" href="index.html">
+      <img src="https://termuxvoid.github.io/repo/img/termuxvoid_logo.png" alt="TermuxVoid Logo">
+      TermuxVoid
+    </a>
+    <button class="menu-btn" id="menuBtn" aria-label="Toggle menu">&#9776;</button>
+    <nav class="header__nav" id="navLinks">
+      <a href="index.html">Home</a>
+      <a href="index.html#tools">Tools</a>
+      <a href="index.html#installation">Installation</a>
+      <a href="index.html#faq">FAQ</a>
+    </nav>
+  </header>
+
+  <!-- ========== Detail Content ========== -->
+  <main class="detail" id="toolDetail">
+    <div class="loader">
+      <div class="loader__spinner"></div>
+      <span class="loader__text">Loading tool details...</span>
+    </div>
+  </main>
+
+  <!-- ========== Footer ========== -->
+  <footer class="footer">
+    <div>
+      <h3>TermuxVoid</h3>
+      <p>Advanced Termux tools beyond official repos.</p>
+    </div>
+    <div>
+      <h3>Quick Links</h3>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="index.html#tools">Tools</a></li>
+        <li><a href="index.html#installation">Installation</a></li>
+      </ul>
+    </div>
+    <div>
+      <h3>Resources</h3>
+      <ul>
+        <li><a href="https://github.com/termuxvoid/repo">GitHub Repo</a></li>
+        <li><a href="https://github.com/TermuxVoid/repo/blob/main/assets/PACKAGES.md">Package List</a></li>
+      </ul>
+    </div>
+    <div class="footer__credits">
+      &copy; 2025 TermuxVoid. Maintained by the Void Team.
+    </div>
+  </footer>
+
+  <!-- ========== Toast ========== -->
+  <div id="toast" class="toast"></div>
+
+  <!-- ========== Scripts ========== -->
+  <script src="js/packages.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      const container = document.getElementById('toolDetail');
+      const params = new URLSearchParams(window.location.search);
+      const toolName = params.get('name');
+
+      if (!toolName) {
+        container.innerHTML = `
+          <a class="detail__back" href="index.html">&larr; Back to tools</a>
+          <div class="error-state">
+            <div class="error-state__icon">&#9888;</div>
+            <p class="error-state__msg">No tool specified. Go back and search for a tool.</p>
+            <a class="detail__btn detail__btn--primary" href="index.html#tools">Browse Tools</a>
+          </div>
+        `;
+        return;
+      }
+
+      // Update page title
+      document.title = `${toolName} - TermuxVoid`;
+
+      try {
+        const packages = await PackagesParser.fetchPackages();
+        const tool = packages.find(p => p.name === toolName);
+
+        if (!tool) {
+          container.innerHTML = `
+            <a class="detail__back" href="index.html">&larr; Back to tools</a>
+            <div class="error-state">
+              <div class="error-state__icon">&#128269;</div>
+              <p class="error-state__msg">Tool "<strong>${esc(toolName)}</strong>" not found in the repository.</p>
+              <a class="detail__btn detail__btn--primary" href="index.html#tools">Browse Tools</a>
+            </div>
+          `;
+          return;
+        }
+
+        document.title = `${tool.name} - TermuxVoid`;
+        const installCmd = `pkg install ${tool.name}`;
+        const deps = tool.depends ? tool.depends.split(',').map(d => d.trim()) : [];
+        const sizeKB = (parseInt(tool.size) / 1024).toFixed(1);
+
+        container.innerHTML = `
+          <a class="detail__back" href="index.html">&larr; Back to tools</a>
+
+          <div class="detail__hero">
+            <h1 class="detail__name">${esc(tool.name)}</h1>
+            <p class="detail__version">Version ${esc(tool.version)} &middot; ${esc(tool.section)}</p>
+          </div>
+
+          <div class="detail__meta">
+            <div class="meta-card">
+              <div class="meta-card__label">Section</div>
+              <div class="meta-card__value">${esc(tool.section)}</div>
+            </div>
+            <div class="meta-card">
+              <div class="meta-card__label">Version</div>
+              <div class="meta-card__value">${esc(tool.version)}</div>
+            </div>
+            <div class="meta-card">
+              <div class="meta-card__label">Architecture</div>
+              <div class="meta-card__value">${esc(tool.architecture)}</div>
+            </div>
+            <div class="meta-card">
+              <div class="meta-card__label">Maintainer</div>
+              <div class="meta-card__value">${esc(tool.maintainer)}</div>
+            </div>
+            <div class="meta-card">
+              <div class="meta-card__label">Package Size</div>
+              <div class="meta-card__value">${sizeKB} KB</div>
+            </div>
+            ${tool.homepage ? `
+            <div class="meta-card">
+              <div class="meta-card__label">Homepage</div>
+              <div class="meta-card__value"><a href="${esc(tool.homepage)}" target="_blank" rel="noopener">${esc(tool.homepage)}</a></div>
+            </div>` : ''}
+          </div>
+
+          <div class="detail__section">
+            <h2 class="detail__section-title">Description</h2>
+            <p class="detail__desc">${esc(tool.description)}</p>
+          </div>
+
+          ${deps.length ? `
+          <div class="detail__section">
+            <h2 class="detail__section-title">Dependencies</h2>
+            <div class="detail__deps">
+              ${deps.map(d => `<span class="detail__dep-tag">${esc(d)}</span>`).join('')}
+            </div>
+          </div>` : ''}
+
+          <div class="detail__section">
+            <h2 class="detail__section-title">Install</h2>
+            <div class="code-block">
+              <button class="copy-btn" onclick="copyCmd(this)">Copy</button>
+              <pre><code>${esc(installCmd)}</code></pre>
+            </div>
+          </div>
+
+          ${tool.sha256 ? `
+          <div class="detail__section">
+            <h2 class="detail__section-title">SHA256 Checksum</h2>
+            <div class="detail__checksum">
+              ${esc(tool.sha256)}
+              <button class="copy-btn" onclick="copyChecksum(this)">Copy</button>
+            </div>
+          </div>` : ''}
+
+          <div class="detail__actions">
+            <button class="detail__btn detail__btn--primary" onclick="copyInstall('${esc(installCmd)}')">
+              Copy Install Command
+            </button>
+            ${tool.homepage ? `
+            <a class="detail__btn detail__btn--secondary" href="${esc(tool.homepage)}" target="_blank" rel="noopener">
+              Visit Homepage &rarr;
+            </a>` : ''}
+            <a class="detail__btn detail__btn--secondary" href="index.html#tools">
+              Browse More Tools
+            </a>
+          </div>
+        `;
+      } catch (err) {
+        container.innerHTML = `
+          <a class="detail__back" href="index.html">&larr; Back to tools</a>
+          <div class="error-state">
+            <div class="error-state__icon">&#9888;</div>
+            <p class="error-state__msg">Failed to load tool: ${esc(err.message)}</p>
+            <button class="error-state__retry" onclick="location.reload()">Retry</button>
+          </div>
+        `;
+      }
+
+      // Setup menu toggle
+      const btn = document.getElementById('menuBtn');
+      const nav = document.getElementById('navLinks');
+      btn.addEventListener('click', () => nav.classList.toggle('open'));
+      nav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => nav.classList.remove('open')));
+      document.addEventListener('click', (e) => {
+        if (!e.target.closest('.header')) nav.classList.remove('open');
+      });
+    });
+
+    function esc(str) {
+      const div = document.createElement('div');
+      div.textContent = str;
+      return div.innerHTML;
+    }
+
+    function copyCmd(btn) {
+      const code = btn.closest('.code-block').querySelector('code').textContent;
+      navigator.clipboard.writeText(code).then(() => {
+        btn.textContent = 'Copied!';
+        btn.classList.add('copied');
+        setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 1500);
+      });
+    }
+
+    function copyChecksum(btn) {
+      const text = btn.parentElement.textContent.replace('Copy', '').trim();
+      navigator.clipboard.writeText(text).then(() => {
+        btn.textContent = 'Copied!';
+        btn.classList.add('copied');
+        setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 1500);
+      });
+    }
+
+    function copyInstall(cmd) {
+      navigator.clipboard.writeText(cmd).then(() => {
+        const toast = document.getElementById('toast');
+        toast.textContent = 'Copied: ' + cmd;
+        toast.classList.add('show', 'toast--success');
+        setTimeout(() => toast.classList.remove('show'), 2000);
+      });
+    }
+  </script>
+
+</body>
+</html>
