@@ -1,179 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="TermuxVoid APT Repository - Advanced Security Tools for Termux. Browse and search 100+ tools.">
+  <meta name="keywords" content="termux, security tools, pentesting, apt repository, termuxvoid">
+  <meta name="theme-color" content="#0d1117">
   <title>TermuxVoid APT Repository</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Inter', sans-serif;
-      background: #0d1117;
-      color: #e6edf3;
-    }
-    a { color: #ffd700; text-decoration: none; }
-    header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 1rem 1.5rem;
-      background: #161b22;
-      border-bottom: 1px solid #222;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-    }
-    header img {
-      height: 36px;
-      margin-right: 0.6rem;
-    }
-    .logo {
-      display: flex;
-      align-items: center;
-      font-weight: 700;
-      font-size: 1.1rem;
-      color: #ffd700;
-    }
-    nav {
-      display: flex;
-    }
-    nav a {
-      margin: 0 0.6rem;
-      font-weight: 600;
-      color: #e6edf3;
-    }
-    /* Mobile Nav */
-    @media (max-width: 768px) {
-      nav {
-        display: none;
-        flex-direction: column;
-        background: #161b22;
-        position: absolute;
-        top: 60px;
-        right: 0;
-        width: 200px;
-        padding: 1rem;
-        border-left: 1px solid #222;
-      }
-      nav.show { display: flex; }
-      .menu-btn {
-        display: block;
-        background: none;
-        border: none;
-        color: #ffd700;
-        font-size: 1.5rem;
-        cursor: pointer;
-      }
-    }
-    @media (min-width: 769px) {
-      .menu-btn { display: none; }
-    }
-    .hero {
-      text-align: center;
-      padding: 2.5rem 1.2rem;
-    }
-    .hero h1 {
-      font-size: 2rem;
-      color: #ffd700;
-      margin: 1rem 0;
-    }
-    .badges a img {
-      margin: 0.3rem;
-      height: 28px;
-    }
-    section {
-      max-width: 1000px;
-      margin: 2rem auto;
-      padding: 1.5rem;
-      background: rgba(255, 255, 255, 0.03);
-      border-radius: 12px;
-    }
-    section h2 {
-      color: #ffd700;
-      margin-bottom: 1rem;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 1rem;
-      font-size: 0.95rem;
-    }
-    table th, table td {
-      padding: 0.6rem;
-      border-bottom: 1px solid #333;
-      text-align: left;
-    }
-    table th { color: #ffd700; }
-    pre {
-      background: #161b22;
-      padding: 0.8rem;
-      border-radius: 8px;
-      overflow-x: auto;
-      font-size: 0.9rem;
-    }
-    .code-block {
-      position: relative;
-      margin: 1rem 0;
-    }
-    .copy-btn {
-      position: absolute;
-      top: 6px;
-      right: 6px;
-      background: #ffd700;
-      border: none;
-      padding: 3px 7px;
-      font-size: 0.8rem;
-      border-radius: 5px;
-      cursor: pointer;
-      color: #000;
-      transition: 0.2s;
-    }
-    .copy-btn:hover { background: #e6c200; }
-    details {
-      background: #161b22;
-      border-radius: 8px;
-      margin: 0.6rem 0;
-      padding: 0.6rem 0.8rem;
-      cursor: pointer;
-    }
-    summary { font-weight: 600; color: #ffd700; }
-    .community { text-align: center; }
-    footer {
-      background: #161b22;
-      padding: 2rem;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 1.5rem;
-      border-top: 1px solid #222;
-    }
-    footer h3 {
-      color: #ffd700;
-      margin-bottom: 0.6rem;
-    }
-    footer ul {
-      list-style: none;
-      padding: 0;
-    }
-    footer ul li { margin: 0.3rem 0; }
-    footer .credits {
-      grid-column: 1/-1;
-      text-align: center;
-      margin-top: 1rem;
-      font-size: 0.85rem;
-      opacity: 0.7;
-    }
-  </style>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-  <header>
-    <div class="logo">
+  <!-- ========== Header ========== -->
+  <header class="header">
+    <a class="header__logo" href="#">
       <img src="https://termuxvoid.github.io/repo/img/termuxvoid_logo.png" alt="TermuxVoid Logo">
       TermuxVoid
-    </div>
-    <button class="menu-btn" onclick="toggleMenu()">☰</button>
-    <nav id="navbar">
+    </a>
+    <button class="menu-btn" id="menuBtn" aria-label="Toggle menu">&#9776;</button>
+    <nav class="header__nav" id="navLinks">
       <a href="#overview">Overview</a>
       <a href="#tools">Tools</a>
       <a href="#installation">Installation</a>
@@ -182,10 +30,11 @@
     </nav>
   </header>
 
-  <div class="hero">
-    <h1>TermuxVoid APT Repository</h1>
-    <p>Advanced Security Tools for Termux - Beyond Official Repositories</p>
-    <div class="badges">
+  <!-- ========== Hero ========== -->
+  <section class="hero">
+    <h1 class="hero__title">TermuxVoid APT Repository</h1>
+    <p class="hero__subtitle">Advanced Security Tools for Termux &mdash; Beyond Official Repositories</p>
+    <div class="hero__badges">
       <a href="https://github.com/TermuxVoid/repo/stargazers">
         <img src="https://img.shields.io/github/stars/TermuxVoid/repo?style=for-the-badge&logo=github&color=ffd700&labelColor=0d1117" alt="GitHub Stars">
       </a>
@@ -193,78 +42,144 @@
         <img src="https://img.shields.io/badge/License-BSD_3--Clause-blue?style=for-the-badge&logo=opensourceinitiative" alt="License">
       </a>
     </div>
-    <p><b>Quick Start</b> • <a href="https://github.com/termuxvoid/repo.git">View Repo →</a></p>
+    <a class="hero__cta" href="https://github.com/termuxvoid/repo">View Repo &rarr;</a>
+  </section>
+
+  <!-- ========== Overview ========== -->
+  <div class="section" id="overview">
+    <div class="section__card">
+      <h2 class="section__title"><span class="icon">&#128269;</span> Project Overview</h2>
+      <p>TermuxVoid provides optimized security tools for Termux with enhanced performance and reliability. All tools are packaged for easy installation and regularly updated.</p>
+      <div class="stats">
+        <div class="stat">
+          <div class="stat__number" id="toolCount">--</div>
+          <div class="stat__label">Tools Available</div>
+        </div>
+        <div class="stat">
+          <div class="stat__number">24/7</div>
+          <div class="stat__label">Auto Updates</div>
+        </div>
+        <div class="stat">
+          <div class="stat__number">100%</div>
+          <div class="stat__label">Open Source</div>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <section id="overview">
-    <h2>🔍 Project Overview</h2>
-    <p>TermuxVoid provides optimized security tools for Termux with enhanced performance and reliability. Now featuring <b>100+ tools</b>!</p>
-  </section>
+  <!-- ========== Search & Tools ========== -->
+  <div class="section search-section" id="tools">
+    <div class="section__card">
+      <h2 class="section__title"><span class="icon">&#9889;</span> Browse Tools</h2>
 
-  <section id="tools">
-    <h2>✨ Featured Tools</h2>
-    <table>
-      <tr><th>Tool</th><th>Category</th><th>Description</th></tr>
-      <tr><td><b>Metasploit Framework</b></td><td>Exploitation</td><td>Industry-standard penetration testing tool</td></tr>
-      <tr><td><b>Burp Suite</b></td><td>Web Security</td><td>Professional web vulnerability scanner</td></tr>
-      <tr><td><b>Ghidra</b></td><td>Reverse Engineering</td><td>NSA's reverse engineering framework</td></tr>
-      <tr><td><b>THC Hydra</b></td><td>Password Cracking</td><td>Network login cracker</td></tr>
-      <tr><td><b>SQLMap</b></td><td>Web Security</td><td>Automated SQL injection tool</td></tr>
-    </table>
-    <p style="margin-top:1rem;"><a href="https://github.com/TermuxVoid/repo/blob/main/assets/PACKAGES.md">View Complete Package List »</a></p>
-  </section>
+      <div class="search-wrapper">
+        <span class="search__icon">&#128269;</span>
+        <input
+          type="text"
+          class="search__input"
+          id="searchInput"
+          placeholder="Search tools by name, description, or category..."
+          autocomplete="off"
+          spellcheck="false"
+        >
+        <button class="search__clear" id="searchClear" aria-label="Clear search">&times;</button>
+      </div>
+      <p class="search__meta" id="searchMeta">Loading tools...</p>
 
-  <section id="installation">
-    <h2>🚀 Quick Start</h2>
-    <div class="code-block">
-      <button class="copy-btn" onclick="copyCode(this)">📋</button>
-      <pre><code># Add repository
+      <div class="tools-grid" id="toolsGrid">
+        <!-- JS populates this -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== Installation ========== -->
+  <div class="section" id="installation">
+    <div class="section__card">
+      <h2 class="section__title"><span class="icon">&#128640;</span> Quick Start</h2>
+      <p style="color: var(--text-secondary); margin-bottom: 1rem;">Get started in two simple commands:</p>
+
+      <div class="code-block">
+        <button class="copy-btn">Copy</button>
+        <pre><code># Add repository
 curl -sL https://termuxvoid.github.io/repo/install.sh | bash</code></pre>
+      </div>
+
+      <div class="code-block">
+        <button class="copy-btn">Copy</button>
+        <pre><code># Install any tool
+pkg install &lt;tool-name&gt;</code></pre>
+      </div>
+
+      <div class="code-block">
+        <button class="copy-btn">Copy</button>
+        <pre><code># Example
+pkg install metasploit</code></pre>
+      </div>
     </div>
-    <div class="code-block">
-      <button class="copy-btn" onclick="copyCode(this)">📋</button>
-      <pre><code># Install tools
-pkg install &lt;tool name&gt;</code></pre>
+  </div>
+
+  <!-- ========== FAQ ========== -->
+  <div class="section" id="faq">
+    <div class="section__card">
+      <h2 class="section__title"><span class="icon">&#10067;</span> FAQ</h2>
+
+      <details class="faq-item">
+        <summary>Are these tools legal to use?</summary>
+        <div class="faq-item__content">
+          <p>All tools are for <strong>legal security research and ethical hacking purposes only</strong>. Always obtain proper authorization before testing systems you do not own.</p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>How often are tools updated?</summary>
+        <div class="faq-item__content">
+          <ul>
+            <li>Security patches within 24 hours</li>
+            <li>Version updates every Sunday</li>
+            <li>Emergency fixes as needed</li>
+          </ul>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>Can I request new tools?</summary>
+        <div class="faq-item__content">
+          <p>Yes! Submit requests via:</p>
+          <ul>
+            <li><a href="https://github.com/TermuxVoid/repo/issues">GitHub Issues</a></li>
+            <li>Telegram <a href="https://t.me/nullxvoid">@nullxvoid</a></li>
+            <li>Email: <a href="mailto:termuxvoid@proton.me">termuxvoid@proton.me</a></li>
+          </ul>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>How do I report a broken package?</summary>
+        <div class="faq-item__content">
+          <p>Open an issue on <a href="https://github.com/TermuxVoid/repo/issues">GitHub</a> with the tool name and error output. We aim to fix reported issues within 24 hours.</p>
+        </div>
+      </details>
     </div>
-  </section>
+  </div>
 
-  <section id="faq">
-    <h2>❓ FAQ</h2>
-    <details>
-      <summary>Are these tools legal to use?</summary>
-      <p>All tools are for <b>legal security research and ethical hacking purposes only</b>. Always obtain authorization before testing systems.</p>
-    </details>
-    <details>
-      <summary>How often are tools updated?</summary>
-      <ul>
-        <li>Security patches within 24 hours</li>
-        <li>Version updates every Sunday</li>
-        <li>Emergency fixes as needed</li>
-      </ul>
-    </details>
-    <details>
-      <summary>Can I request new tools?</summary>
-      <p>Yes! Submit requests via:</p>
-      <ul>
-        <li>GitHub Issues</li>
-        <li>Telegram @nullxvoid</li>
-        <li>Email: termuxvoid@proton.me</li>
-      </ul>
-    </details>
-  </section>
+  <!-- ========== Support ========== -->
+  <div class="section" id="support">
+    <div class="section__card community">
+      <h2 class="section__title" style="justify-content: center;"><span class="icon">&#127760;</span> Support &amp; Community</h2>
+      <div class="community__links">
+        <a class="community__link" href="https://t.me/nullxvoid">&#128172; Telegram</a>
+        <a class="community__link" href="https://youtube.com/@alienkrishnorg">&#127909; YouTube</a>
+        <a class="community__link" href="https://github.com/TermuxVoid/repo/issues">&#128196; GitHub Issues</a>
+      </div>
+      <p class="community__note">Star the repo &middot; Report issues responsibly &middot; Share with the community</p>
+    </div>
+  </div>
 
-  <section id="support" class="community">
-    <h2>🌐 Support & Community</h2>
-    <a href="https://t.me/nullxvoid">Telegram</a> ·
-    <a href="https://youtube.com/@alienkrishnorg">YouTube</a> ·
-    <a href="https://github.com/TermuxVoid/repo/issues">GitHub Issues</a>
-    <p style="margin-top:1rem;">Support the project: ⭐ Star this repository · 🐛 Report issues responsibly · 📢 Share with communities · 💰 Join us on Telegram</p>
-  </section>
-
-  <footer>
+  <!-- ========== Footer ========== -->
+  <footer class="footer">
     <div>
       <h3>TermuxVoid</h3>
-      <p>Advanced Termux tools beyond official repos. Built with ❤️ for security researchers.</p>
+      <p>Advanced Termux tools beyond official repos. Built with care for security researchers.</p>
     </div>
     <div>
       <h3>Quick Links</h3>
@@ -279,25 +194,22 @@ pkg install &lt;tool name&gt;</code></pre>
       <h3>Resources</h3>
       <ul>
         <li><a href="https://github.com/termuxvoid/repo">GitHub Repo</a></li>
-        <li><a href="https://github.com/TermuxVoid/repo/blob/main/assets/PACKAGES.md">Tool List</a></li>
+        <li><a href="https://github.com/TermuxVoid/repo/blob/main/assets/PACKAGES.md">Package List</a></li>
+        <li><a href="https://github.com/TermuxVoid/repo/blob/main/LICENSE">License</a></li>
       </ul>
     </div>
-    <div class="credits">
-      © 2025 TermuxVoid. Maintained by the Void Team.
+    <div class="footer__credits">
+      &copy; 2025 TermuxVoid. Maintained by the Void Team.
     </div>
   </footer>
 
-  <script>
-    function toggleMenu() {
-      document.getElementById("navbar").classList.toggle("show");
-    }
-    function copyCode(button) {
-      const code = button.nextElementSibling.innerText;
-      navigator.clipboard.writeText(code).then(() => {
-        button.innerText = "✅";
-        setTimeout(() => (button.innerText = "📋"), 1500);
-      });
-    }
-  </script>
+  <!-- ========== Back to Top ========== -->
+  <button class="back-to-top" id="backToTop" aria-label="Back to top">&uarr;</button>
+
+  <!-- ========== Scripts ========== -->
+  <script src="js/packages.js"></script>
+  <script src="js/search.js"></script>
+  <script src="js/app.js"></script>
+
 </body>
 </html>
