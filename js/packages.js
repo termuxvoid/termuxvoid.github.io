@@ -13,7 +13,7 @@ const PackagesParser = (() => {
    */
   function parse(text) {
     const blocks = text.split(/\n\n+/).filter((b) => b.trim());
-    return blocks.map(parseBlock).filter((p) => p.Package);
+    return blocks.map(parseBlock).filter((p) => p.name);
   }
 
   function parseBlock(block) {

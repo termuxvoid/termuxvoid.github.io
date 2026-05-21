@@ -5,17 +5,18 @@
 const Search = (() => {
   let allPackages = [];
   let debounceTimer = null;
+  let onResults = null; // callback(results, query)
 
-  function init(packages) {
+  function init(packages, resultsCallback) {
     allPackages = packages;
+    onResults = resultsCallback;
+
     const input = document.getElementById('searchInput');
     const clearBtn = document.getElementById('searchClear');
 
     input.addEventListener('input', () => {
       clearTimeout(debounceTimer);
       debounceTimer = setTimeout(() => performSearch(input.value), 200);
-
-      // Toggle clear button
       clearBtn.classList.toggle('visible', input.value.length > 0);
     });
 
@@ -49,17 +50,7 @@ const Search = (() => {
         )
       : allPackages;
 
-    renderTools(results, trimmed);
-    updateMeta(results.length, allPackages.length, trimmed);
-  }
-
-  function updateMeta(shown, total, query) {
-    const meta = document.getElementById('searchMeta');
-    if (query) {
-      meta.textContent = `Showing ${shown} of ${total} tools`;
-    } else {
-      meta.textContent = `${total} tools available`;
-    }
+    if (onResults) onResults(results, trimmed);
   }
 
   return { init, performSearch };
