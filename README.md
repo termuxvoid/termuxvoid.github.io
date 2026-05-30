@@ -9,17 +9,17 @@
 </p>
 
 <p align="center">
-  <a href="https://termuxvoid.github.io"><img src="https://img.shields.io/badge/Site-Live-22d3ee?style=for-the-badge&logo=googlechrome&logoColor=fff" alt="Live Site"></a>
-  <a href="https://github.com/TermuxVoid/repo/stargazers"><img src="https://img.shields.io/github/stars/TermuxVoid/repo?style=for-the-badge&logo=github&color=fbbf24&labelColor=0d1117" alt="Stars"></a>
-  <a href="https://github.com/TermuxVoid/repo/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-BSD_3--Clause-blue?style=for-the-badge&logo=opensourceinitiative" alt="License"></a>
-  <a href="https://t.me/nullxvoid"><img src="https://img.shields.io/badge/Telegram-Join-26A5E4?style=for-the-badge&logo=telegram&logoColor=fff" alt="Telegram"></a>
+  <a href="https://termuxvoid.github.io"><img src="https://img.shields.io/badge/Site-Live-00ff41?style=for-the-badge&logo=googlechrome&logoColor=000" alt="Live Site"></a>
+  <a href="https://github.com/TermuxVoid/repo/stargazers"><img src="https://img.shields.io/github/stars/TermuxVoid/repo?style=for-the-badge&logo=github&color=00ff41&labelColor=0a0a0a" alt="Stars"></a>
+  <a href="https://github.com/TermuxVoid/repo/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-BSD_3--Clause-00ff41?style=for-the-badge&logo=opensourceinitiative&logoColor=000" alt="License"></a>
+  <a href="https://t.me/nullxvoid"><img src="https://img.shields.io/badge/Telegram-Join-00ff41?style=for-the-badge&logo=telegram&logoColor=000" alt="Telegram"></a>
 </p>
 
 ---
 
 ## Overview
 
-A dark-themed, glassmorphism-styled single-page site built with vanilla HTML, CSS, and JavaScript. It fetches package metadata directly from the TermuxVoid APT repository and lets users browse, search, and get install commands for 100+ security tools — no frameworks, no build step.
+A neon hacker-themed single-page site built with vanilla HTML, CSS, and JavaScript. It fetches package metadata directly from the TermuxVoid APT repository and lets users browse, search, and get install commands for 100+ security tools — no frameworks, no build step.
 
 ## Features
 
@@ -71,7 +71,7 @@ pkg install <tool-name>
 ## Tech Stack
 
 - **HTML5** — semantic markup
-- **CSS3** — custom properties, glassmorphism, grid/flexbox, animations
+- **CSS3** — custom properties, neon glow effects, grid/flexbox, animations
 - **Vanilla JS** — IIFE modules, `fetch` API, `Clipboard` API
 - **Google Fonts** — Inter (400–800)
 
@@ -97,5 +97,5 @@ This project is licensed under the [BSD 3-Clause License](https://github.com/Ter
 ---
 
 <p align="center">
-  Built with care for the security research community.
+  Built for the security research community.
 </p>
