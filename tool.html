@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#0d1117">
+  <meta name="theme-color" content="#020a02">
   <title>Tool Details - TermuxVoid</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -57,7 +57,7 @@
       </ul>
     </div>
     <div class="footer__credits">
-      &copy; 2026 TermuxVoid. Maintained by the Void Team.
+      &copy; 2026 TermuxVoid. Maintained by <a href="https://github.com/Anon4You" target="_blank" rel="noopener">Alienkrishn</a>.
     </div>
   </footer>
 
@@ -76,9 +76,9 @@
         container.innerHTML = `
           <a class="detail__back" href="index.html">&larr; Back to tools</a>
           <div class="error-state">
-            <div class="error-state__icon">&#9888;</div>
-            <p class="error-state__msg">No tool specified. Go back and search for a tool.</p>
-            <a class="detail__btn detail__btn--primary" href="index.html#tools">Browse Tools</a>
+            <div class="error-state__icon">!</div>
+            <p class="error-state__msg">[ERROR] No tool specified. Go back and search for a tool.</p>
+            <a class="detail__btn detail__btn--primary" href="index.html#tools">$ browse tools</a>
           </div>
         `;
         return;
@@ -95,9 +95,9 @@
           container.innerHTML = `
             <a class="detail__back" href="index.html">&larr; Back to tools</a>
             <div class="error-state">
-              <div class="error-state__icon">&#128269;</div>
-              <p class="error-state__msg">Tool "<strong>${esc(toolName)}</strong>" not found in the repository.</p>
-              <a class="detail__btn detail__btn--primary" href="index.html#tools">Browse Tools</a>
+              <div class="error-state__icon">!</div>
+              <p class="error-state__msg">[404] Tool "<strong>${esc(toolName)}</strong>" not found in repository.</p>
+              <a class="detail__btn detail__btn--primary" href="index.html#tools">$ browse tools</a>
             </div>
           `;
           return;
@@ -113,7 +113,7 @@
 
           <div class="detail__hero">
             <h1 class="detail__name">${esc(tool.name)}</h1>
-            <p class="detail__version">Version ${esc(tool.version)} &middot; ${esc(tool.section)}</p>
+            <p class="detail__version">v${esc(tool.version)} // ${esc(tool.section)}</p>
           </div>
 
           <div class="detail__meta">
@@ -134,7 +134,7 @@
               <div class="meta-card__value">${esc(tool.maintainer)}</div>
             </div>
             <div class="meta-card">
-              <div class="meta-card__label">Package Size</div>
+              <div class="meta-card__label">Size</div>
               <div class="meta-card__value">${sizeKB} KB</div>
             </div>
             ${tool.homepage ? `
@@ -161,7 +161,7 @@
             <h2 class="detail__section-title">Install</h2>
             <div class="code-block">
               <button class="copy-btn" onclick="copyCmd(this)">Copy</button>
-              <pre><code>${esc(installCmd)}</code></pre>
+              <pre><code>$ ${esc(installCmd)}</code></pre>
             </div>
           </div>
 
@@ -176,14 +176,14 @@
 
           <div class="detail__actions">
             <button class="detail__btn detail__btn--primary" onclick="copyInstall('${esc(installCmd)}')">
-              Copy Install Command
+              $ copy install cmd
             </button>
             ${tool.homepage ? `
             <a class="detail__btn detail__btn--secondary" href="${esc(tool.homepage)}" target="_blank" rel="noopener">
-              Visit Homepage &rarr;
+              homepage &rarr;
             </a>` : ''}
             <a class="detail__btn detail__btn--secondary" href="index.html#tools">
-              Browse More Tools
+              browse tools
             </a>
           </div>
         `;
@@ -191,9 +191,9 @@
         container.innerHTML = `
           <a class="detail__back" href="index.html">&larr; Back to tools</a>
           <div class="error-state">
-            <div class="error-state__icon">&#9888;</div>
-            <p class="error-state__msg">Failed to load tool: ${esc(err.message)}</p>
-            <button class="error-state__retry" onclick="location.reload()">Retry</button>
+            <div class="error-state__icon">!</div>
+            <p class="error-state__msg">[ERROR] Failed to load tool: ${esc(err.message)}</p>
+            <button class="error-state__retry" onclick="location.reload()">$ retry</button>
           </div>
         `;
       }

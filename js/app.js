@@ -45,7 +45,7 @@ const App = (() => {
     const container = document.getElementById('toolsGrid');
     container.innerHTML = `
       <div class="empty-state" style="grid-column:1/-1">
-        <div class="empty-state__icon">&#128269;</div>
+        <div class="empty-state__icon">&#9670;</div>
         <p style="color:var(--text-secondary);margin-top:0.5rem">Type to search <strong>${allPackages.length}</strong> tools by name, description, or category</p>
         <a href="https://github.com/termuxvoid/repo/blob/main/assets/PACKAGES.md" target="_blank" rel="noopener" style="display:inline-block;margin-top:0.8rem;padding:0.45rem 1rem;background:var(--accent);color:#000;font-weight:600;font-size:0.9rem;border-radius:var(--radius-md);transition:all 0.25s">View All Tools &rarr;</a>
       </div>
@@ -59,7 +59,7 @@ const App = (() => {
     if (packages.length === 0) {
       container.innerHTML = `
         <div class="empty-state" style="grid-column: 1 / -1;">
-          <div class="empty-state__icon">&#128269;</div>
+          <div class="empty-state__icon">&#9670;</div>
           <p>No tools found for "<strong>${escapeHtml(query)}</strong>"</p>
         </div>
       `;
