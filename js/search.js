@@ -13,11 +13,13 @@ const Search = (() => {
 
     const input = document.getElementById('searchInput');
     const clearBtn = document.getElementById('searchClear');
+    const hint = document.getElementById('searchHint');
 
     input.addEventListener('input', () => {
       clearTimeout(debounceTimer);
       debounceTimer = setTimeout(() => performSearch(input.value), 200);
       clearBtn.classList.toggle('visible', input.value.length > 0);
+      if (hint) hint.style.display = input.value.length > 0 ? 'none' : '';
     });
 
     clearBtn.addEventListener('click', () => {

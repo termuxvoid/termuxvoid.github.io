@@ -44,10 +44,10 @@ const App = (() => {
   function showSearchPrompt() {
     const container = document.getElementById('toolsGrid');
     container.innerHTML = `
-      <div class="empty-state" style="grid-column:1/-1">
+      <div class="empty-state">
         <div class="empty-state__icon">&#9670;</div>
-        <p style="color:var(--text-secondary);margin-top:0.5rem">Type to search <strong>${allPackages.length}</strong> tools by name, description, or category</p>
-        <a href="https://github.com/termuxvoid/repo/blob/main/assets/PACKAGES.md" target="_blank" rel="noopener" style="display:inline-block;margin-top:0.8rem;padding:0.45rem 1rem;background:var(--accent);color:#000;font-weight:600;font-size:0.9rem;border-radius:var(--radius-md);transition:all 0.25s">View All Tools &rarr;</a>
+        <p class="empty-state__search">Type to search <strong>${allPackages.length}</strong> tools by name, description, or category</p>
+        <a href="https://github.com/termuxvoid/repo/blob/main/assets/PACKAGES.md" target="_blank" rel="noopener" class="empty-state__view-all">View All Tools &rarr;</a>
       </div>
     `;
   }
@@ -58,7 +58,7 @@ const App = (() => {
 
     if (packages.length === 0) {
       container.innerHTML = `
-        <div class="empty-state" style="grid-column: 1 / -1;">
+        <div class="empty-state empty-state__no-results">
           <div class="empty-state__icon">&#9670;</div>
           <p>No tools found for "<strong>${escapeHtml(query)}</strong>"</p>
         </div>
@@ -86,7 +86,7 @@ const App = (() => {
         <p class="tool-card__desc">${escapeHtml(pkg.description)}</p>
         <div class="tool-card__footer">
           ${homepageLink}
-          <span class="tool-card__install" onclick="event.preventDefault();event.stopPropagation();App.copyInstall(this,'${escapeHtml(installCmd)}')" title="Copy install command">
+          <span class="tool-card__install" data-cmd="${escapeHtml(installCmd)}" onclick="event.preventDefault();event.stopPropagation();App.copyInstall(this)" title="Copy install command">
             $ ${escapeHtml(installCmd)}
           </span>
         </div>
@@ -113,7 +113,7 @@ const App = (() => {
   /* --- Loader / Error --- */
   function showLoader(container) {
     container.innerHTML = `
-      <div class="loader" style="grid-column:1/-1">
+      <div class="loader loader--full">
         <div class="loader__spinner"></div>
         <span class="loader__text">Loading tools from repository...</span>
       </div>
@@ -122,7 +122,7 @@ const App = (() => {
 
   function showError(container, message) {
     container.innerHTML = `
-      <div class="error-state" style="grid-column:1/-1">
+      <div class="error-state error-state--full">
         <div class="error-state__icon">&#9888;</div>
         <p class="error-state__msg">Failed to load tools: ${escapeHtml(message)}</p>
         <button class="error-state__retry" onclick="App.retry()">Retry</button>
@@ -131,7 +131,8 @@ const App = (() => {
   }
 
   /* --- Copy Install Command --- */
-  function copyInstall(btn, cmd) {
+  function copyInstall(btn) {
+    const cmd = btn.dataset.cmd;
     navigator.clipboard.writeText(cmd).then(() => {
       const orig = btn.textContent;
       btn.textContent = 'Copied!';

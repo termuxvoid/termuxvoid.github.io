@@ -5,6 +5,8 @@
 const PackagesParser = (() => {
   const PACKAGES_URL =
     'https://raw.githubusercontent.com/termuxvoid/repo/refs/heads/gh-pages/dists/termuxvoid/main/binary-all/Packages';
+  const CACHE_KEY = 'termuxvoid_packages';
+  const CACHE_TTL = 1000 * 60 * 30; // 30 minutes
 
   /**
    * Parse a Debian Packages file into an array of objects.
@@ -63,12 +65,26 @@ const PackagesParser = (() => {
    * Returns a promise that resolves to an array of package objects.
    */
   async function fetchPackages() {
+    try {
+      const cached = sessionStorage.getItem(CACHE_KEY);
+      if (cached) {
+        const { data, timestamp } = JSON.parse(cached);
+        if (Date.now() - timestamp < CACHE_TTL) return data;
+      }
+    } catch {}
+
     const response = await fetch(PACKAGES_URL);
     if (!response.ok) {
       throw new Error(`Failed to fetch packages: ${response.status}`);
     }
     const text = await response.text();
-    return parse(text);
+    const packages = parse(text);
+
+    try {
+      sessionStorage.setItem(CACHE_KEY, JSON.stringify({ data: packages, timestamp: Date.now() }));
+    } catch {}
+
+    return packages;
   }
 
   return { parse, fetchPackages };

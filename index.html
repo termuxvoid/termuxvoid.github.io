@@ -7,6 +7,12 @@
   <meta name="keywords" content="termux, security tools, pentesting, apt repository, termuxvoid">
   <meta name="theme-color" content="#020a02">
   <title>TermuxVoid APT Repository</title>
+  <link rel="icon" href="https://github.com/termuxvoid/repo/raw/main/img/termuxvoid_logo.png" type="image/png">
+  <meta property="og:title" content="TermuxVoid APT Repository">
+  <meta property="og:description" content="Unofficial custom APT repository for Termux. Ethical hacking, bug bounty & cyber security tools.">
+  <meta property="og:image" content="https://github.com/termuxvoid/repo/raw/main/img/termuxvoid_logo.png">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://termuxvoid.github.io">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -17,7 +23,7 @@
   <!-- ========== Header ========== -->
   <header class="header">
     <a class="header__logo" href="#">
-      <img src="https://github.com/termuxvoid/repo/raw/main/img/termuxvoid_logo.png" alt="TermuxVoid Logo">
+      <img src="https://github.com/termuxvoid/repo/raw/main/img/termuxvoid_logo.png" alt="TermuxVoid Logo" loading="lazy">
       TermuxVoid
     </a>
     <button class="menu-btn" id="menuBtn" aria-label="Toggle menu">&#9776;</button>
@@ -46,10 +52,11 @@
   </section>
 
   <!-- ========== Overview ========== -->
+  <div class="section-divider"></div>
   <div class="section" id="overview">
     <div class="section__card">
       <h2 class="section__title"><span class="icon">&#9670;</span> What is TermuxVoid?</h2>
-      <p>Unofficial custom APT repository for Termux. Provides extra tools not available in official Termux repos or excluded from it. Covers ethical hacking, bug bounty, cyber security, reverse engineering & more. Compiled natively for Android. Includes root package </p>
+      <p>Unofficial custom APT repository for Termux. Provides extra tools not available in official Termux repos or excluded from it. Covers ethical hacking, bug bounty, cyber security, reverse engineering & more. Compiled natively for Android.</p>
       <div class="stats">
         <div class="stat">
           <div class="stat__number" id="toolCount">--</div>
@@ -68,6 +75,7 @@
   </div>
 
   <!-- ========== Search & Tools ========== -->
+  <div class="section-divider"></div>
   <div class="section search-section" id="tools">
     <div class="section__card">
       <h2 class="section__title"><span class="icon">&#9889;</span> Browse Tools</h2>
@@ -81,7 +89,9 @@
           placeholder="Search tools by name, description, or category..."
           autocomplete="off"
           spellcheck="false"
+          aria-label="Search tools"
         >
+        <span class="search__hint" id="searchHint">/</span>
         <button class="search__clear" id="searchClear" aria-label="Clear search">&times;</button>
       </div>
       <p class="search__meta" id="searchMeta">Loading tools...</p>
@@ -93,10 +103,11 @@
   </div>
 
   <!-- ========== Installation ========== -->
+  <div class="section-divider"></div>
   <div class="section" id="installation">
     <div class="section__card">
       <h2 class="section__title"><span class="icon">&#9654;</span> Quick Start</h2>
-      <p style="color: var(--text-secondary); margin-bottom: 1rem;">Get started in two simple commands:</p>
+      <p class="section__subtitle">Get started in two simple commands:</p>
 
       <div class="code-block">
         <button class="copy-btn">Copy</button>
@@ -119,6 +130,7 @@ pkg install metasploit-framework</code></pre>
   </div>
 
   <!-- ========== FAQ ========== -->
+  <div class="section-divider"></div>
   <div class="section" id="faq">
     <div class="section__card">
       <h2 class="section__title"><span class="icon">&#63;</span> FAQ</h2>
@@ -163,9 +175,10 @@ pkg install metasploit-framework</code></pre>
   </div>
 
   <!-- ========== Support ========== -->
+  <div class="section-divider"></div>
   <div class="section" id="support">
     <div class="section__card community">
-      <h2 class="section__title" style="justify-content: center;"><span class="icon">&#8853;</span> Support &amp; Community</h2>
+      <h2 class="section__title section__title--center"><span class="icon">&#8853;</span> Support &amp; Community</h2>
       <div class="community__links">
         <a class="community__link" href="https://t.me/nullxvoid">&#9654; Telegram</a>
         <a class="community__link" href="https://youtube.com/@alienkrishnorg">&#9654; YouTube</a>
