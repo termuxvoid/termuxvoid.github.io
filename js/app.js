@@ -73,7 +73,7 @@ const App = (() => {
     const delay = Math.min(index * 0.02, 0.5);
     const installCmd = `pkg install ${pkg.name}`;
     const homepageLink = pkg.homepage
-      ? `<a class="tool-card__link" href="${escapeHtml(pkg.homepage)}" target="_blank" rel="noopener">Homepage &#8599;</a>`
+      ? `<a class="tool-card__link" href="${escapeHtml(pkg.homepage)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">Homepage &#8599;</a>`
       : '';
 
     return `
