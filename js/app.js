@@ -73,24 +73,24 @@ const App = (() => {
     const delay = Math.min(index * 0.02, 0.5);
     const installCmd = `pkg install ${pkg.name}`;
     const homepageLink = pkg.homepage
-      ? `<a class="tool-card__link" href="${escapeHtml(pkg.homepage)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">Homepage &#8599;</a>`
+      ? `<a class="tool-card__link" href="${escapeHtml(pkg.homepage)}" target="_blank" rel="noopener">Homepage &#8599;</a>`
       : '';
 
     return `
-      <a class="tool-card" href="tool.html?name=${encodeURIComponent(pkg.name)}" style="animation-delay:${delay}s;text-decoration:none;color:inherit">
+      <div class="tool-card" style="animation-delay:${delay}s">
         <div class="tool-card__header">
-          <span class="tool-card__name">${escapeHtml(pkg.name)}</span>
+          <a class="tool-card__name" href="tool.html?name=${encodeURIComponent(pkg.name)}">${escapeHtml(pkg.name)}</a>
           ${pkg.version ? `<span class="tool-card__version">v${escapeHtml(pkg.version)}</span>` : ''}
         </div>
         ${pkg.section !== 'other' ? `<span class="tool-card__section">${escapeHtml(pkg.section)}</span>` : ''}
         <p class="tool-card__desc">${escapeHtml(pkg.description)}</p>
         <div class="tool-card__footer">
           ${homepageLink}
-          <span class="tool-card__install" data-cmd="${escapeHtml(installCmd)}" onclick="event.preventDefault();event.stopPropagation();App.copyInstall(this)" title="Copy install command">
+          <button type="button" class="tool-card__install" data-cmd="${escapeHtml(installCmd)}" onclick="App.copyInstall(this)" title="Copy install command" aria-label="Copy install command for ${escapeHtml(pkg.name)}">
             $ ${escapeHtml(installCmd)}
-          </span>
+          </button>
         </div>
-      </a>
+      </div>
     `;
   }
 

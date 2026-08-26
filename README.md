@@ -5,7 +5,7 @@
 <h1 align="center">TermuxVoid Website</h1>
 
 <p align="center">
-  Official landing page for the TermuxVoid APT Repository — advanced security tools for Termux.
+  Official landing page for the TermuxVoid Repository — advanced security tools for Termux, available as both APT (dpkg) and Pacman repositories.
 </p>
 
 <p align="center">
@@ -19,7 +19,7 @@
 
 ## Overview
 
-A neon hacker-themed single-page site built with vanilla HTML, CSS, and JavaScript. It fetches package metadata directly from the TermuxVoid APT repository and lets users browse, search, and get install commands for 100+ security tools — no frameworks, no build step.
+A neon hacker-themed single-page site built with vanilla HTML, CSS, and JavaScript. It fetches package metadata directly from the TermuxVoid APT repository and lets users browse, search, and get install commands for 100+ security tools — no frameworks, no build step. TermuxVoid also ships a Pacman repository with the same tools, so `pkg install` works on both setups.
 
 ## Features
 
@@ -60,10 +60,19 @@ Or visit the live site: **[termuxvoid.github.io](https://termuxvoid.github.io)**
 
 ## Adding the Repository (Termux)
 
-```bash
-# Add the TermuxVoid repository
-curl -sL https://termuxvoid.github.io/repo/install.sh | bash
+TermuxVoid ships the same tools as both an APT and a Pacman repository. Add the one matching your setup:
 
+```bash
+# APT (dpkg) Termux
+curl -sL https://github.com/termuxvoid/repo/raw/main/install.sh | bash
+
+# Pacman Termux
+curl -sL https://github.com/termuxvoid/pacman-repo/raw/main/install-repo.sh | bash
+```
+
+Once added, install any tool with `pkg install` — it works on both APT and Pacman setups:
+
+```bash
 # Install any tool
 pkg install <tool-name>
 ```

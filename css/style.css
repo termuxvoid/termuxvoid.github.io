@@ -94,6 +94,24 @@ a:hover {
   color: #00ffaa;
 }
 
+/* --- Focus Visibility (keyboard a11y) --- */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible {
+  box-shadow: 0 0 0 3px var(--accent-glow), 0 0 18px rgba(0, 255, 65, 0.25);
+}
+
+/* Remove default outline only when focus-visible is supported */
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
 ::selection {
   background: var(--accent);
   color: #000;
@@ -338,6 +356,21 @@ body::after {
   margin-bottom: 1rem;
 }
 
+/* Inline code (subtitles, paragraphs) */
+p code,
+.hero__subtitle code,
+.section__subtitle code,
+.detail__desc code,
+.faq-item__content code {
+  font-family: var(--font-mono);
+  background: rgba(0, 255, 65, 0.08);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0.1em 0.4em;
+  font-size: 0.88em;
+  color: var(--accent);
+}
+
 .section__card {
   background: var(--bg-card);
   backdrop-filter: blur(12px);
@@ -543,9 +576,6 @@ body::after {
   gap: 0.55rem;
   animation: fadeIn 0.4s ease forwards;
   opacity: 0;
-  cursor: pointer;
-  text-decoration: none;
-  color: inherit;
   position: relative;
   overflow: hidden;
 }
@@ -674,6 +704,7 @@ body::after {
   cursor: pointer;
   transition: all var(--transition);
   border: 1px solid rgba(0, 255, 65, 0.2);
+  appearance: none;
 }
 
 .tool-card__install:hover {
@@ -843,7 +874,8 @@ body::after {
   opacity: 0.5;
 }
 
-.code-block:hover .copy-btn {
+.code-block:hover .copy-btn,
+.code-block:focus-within .copy-btn {
   opacity: 1;
 }
 
@@ -894,6 +926,10 @@ body::after {
 .copy-btn:hover {
   background: #00ffaa;
   transform: scale(1.05);
+}
+
+.code-block:focus-within .copy-btn {
+  opacity: 1;
 }
 
 .copy-btn.copied {
@@ -1168,6 +1204,18 @@ body::after {
   box-shadow: 0 4px 20px rgba(0, 255, 65, 0.3);
 }
 
+/* --- Reduced Motion --- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 /* --- Responsive --- */
 @media (max-width: 768px) {
   .header {
@@ -1405,6 +1453,31 @@ body::after {
   gap: 0.9rem;
   flex-wrap: wrap;
   margin-top: 1.8rem;
+  align-items: center;
+}
+
+.detail__source-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  margin-left: auto;
+}
+
+.detail__source-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+@media (max-width: 768px) {
+  .detail__source-group {
+    margin-left: 0;
+    width: 100%;
+  }
 }
 
 .detail__btn {

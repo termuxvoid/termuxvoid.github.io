@@ -161,7 +161,7 @@
           <div class="detail__section">
             <h2 class="detail__section-title">Install</h2>
             <div class="code-block">
-              <button class="copy-btn" onclick="copyCmd(this)">Copy</button>
+              <button class="copy-btn" aria-label="Copy install command" onclick="copyCmd(this)">Copy</button>
               <pre><code>$ ${esc(installCmd)}</code></pre>
             </div>
           </div>
@@ -171,9 +171,15 @@
             <a class="detail__btn detail__btn--secondary" href="${esc(tool.homepage)}" target="_blank" rel="noopener">
               homepage &rarr;
             </a>` : ''}
-            <a class="detail__btn detail__btn--secondary" href="https://github.com/termuxvoid/repo/tree/main/packages/${encodeURIComponent(tool.name)}/DEBIAN" target="_blank" rel="noopener">
-              source &rarr;
-            </a>
+            <div class="detail__source-group">
+              <span class="detail__source-label">source:</span>
+              <a class="detail__btn detail__btn--secondary" href="https://github.com/termuxvoid/repo/tree/main/packages/${encodeURIComponent(tool.name)}/DEBIAN" target="_blank" rel="noopener">
+                APT &rarr;
+              </a>
+              <a class="detail__btn detail__btn--secondary" href="https://github.com/termuxvoid/pacman-repo/tree/main/packages/${encodeURIComponent(tool.name)}" target="_blank" rel="noopener">
+                Pacman &rarr;
+              </a>
+            </div>
           </div>
         `;
       } catch (err) {

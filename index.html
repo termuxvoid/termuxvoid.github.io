@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="TermuxVoid - Unofficial custom APT repository for Termux. Extra security tools for ethical hacking, bug bounty, cyber security & reverse engineering. Compiled natively for Android.">
-  <meta name="keywords" content="termux, security tools, pentesting, apt repository, termuxvoid">
+  <meta name="description" content="TermuxVoid - Unofficial custom repository for Termux. Extra security tools for ethical hacking, bug bounty, cyber security & reverse engineering. Ships both APT (dpkg) and Pacman repositories, so pkg install works on either setup. Compiled natively for Android.">
+  <meta name="keywords" content="termux, security tools, pentesting, apt repository, pacman repository, termuxvoid">
   <meta name="theme-color" content="#020a02">
-  <title>TermuxVoid APT Repository</title>
+  <title>TermuxVoid Repository — APT &amp; Pacman</title>
   <link rel="icon" href="https://github.com/termuxvoid/repo/raw/main/img/termuxvoid_logo.png" type="image/png">
-  <meta property="og:title" content="TermuxVoid APT Repository">
-  <meta property="og:description" content="Unofficial custom APT repository for Termux. Ethical hacking, bug bounty & cyber security tools.">
+  <meta property="og:title" content="TermuxVoid Repository — APT &amp; Pacman">
+  <meta property="og:description" content="Unofficial custom repository for Termux. Ethical hacking, bug bounty & cyber security tools — available for both APT and Pacman setups.">
   <meta property="og:image" content="https://github.com/termuxvoid/repo/raw/main/img/termuxvoid_logo.png">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://termuxvoid.github.io">
@@ -38,8 +38,8 @@
 
   <!-- ========== Hero ========== -->
   <section class="hero">
-    <h1 class="hero__title">TermuxVoid APT Repository</h1>
-    <p class="hero__subtitle">Unofficial APT Repository &mdash; Ethical Hacking, Bug Bounty & Cyber Security Tools for Termux</p>
+    <h1 class="hero__title">TermuxVoid Repository</h1>
+    <p class="hero__subtitle">Unofficial Repository &mdash; Ethical Hacking, Bug Bounty & Cyber Security Tools for Termux. Ships both APT &amp; Pacman repos, so <code>pkg install</code> works on either setup.</p>
     <div class="hero__badges">
       <a href="https://github.com/TermuxVoid/repo/stargazers">
         <img src="https://img.shields.io/github/stars/TermuxVoid/repo?style=for-the-badge&logo=github&color=00ff41&labelColor=000a00&logoColor=00ff41" alt="GitHub Stars">
@@ -56,7 +56,7 @@
   <div class="section" id="overview">
     <div class="section__card">
       <h2 class="section__title"><span class="icon">&#9670;</span> What is TermuxVoid?</h2>
-      <p>Unofficial custom APT repository for Termux. Provides extra tools not available in official Termux repos or excluded from it. Covers ethical hacking, bug bounty, cyber security, reverse engineering & more. Compiled natively for Android.</p>
+       <p>Unofficial custom repository for Termux, available as both an <strong>APT (dpkg)</strong> and a <strong>Pacman</strong> repository. Provides extra tools not available in official Termux repos or excluded from it. Covers ethical hacking, bug bounty, cyber security, reverse engineering &amp; more. Compiled natively for Android. The very same tools are installable on either setup &mdash; <code>pkg install</code> works on both.</p>
       <div class="stats">
         <div class="stat">
           <div class="stat__number" id="toolCount">--</div>
@@ -107,25 +107,38 @@
   <div class="section" id="installation">
     <div class="section__card">
       <h2 class="section__title"><span class="icon">&#9654;</span> Quick Start</h2>
-      <p class="section__subtitle">Get started in two simple commands:</p>
+      <p class="section__subtitle">TermuxVoid ships the same tools for both APT (dpkg) and Pacman Termux. Add the repo that matches your setup, then install any tool with <code>pkg install</code> &mdash; it works on both.</p>
 
       <div class="code-block">
-        <button class="copy-btn">Copy</button>
-        <pre><code># Add repository
+        <button class="copy-btn" aria-label="Copy command to clipboard">Copy</button>
+        <pre><code># Add APT repository
 curl -sL https://github.com/termuxvoid/repo/raw/main/install.sh | bash</code></pre>
       </div>
 
       <div class="code-block">
-        <button class="copy-btn">Copy</button>
-        <pre><code># Install any tool
+        <button class="copy-btn" aria-label="Copy command to clipboard">Copy</button>
+        <pre><code># Add Pacman repository
+curl -sL https://github.com/termuxvoid/pacman-repo/raw/main/install-repo.sh | bash</code></pre>
+      </div>
+
+      <div class="code-block">
+        <button class="copy-btn" aria-label="Copy command to clipboard">Copy</button>
+        <pre><code># Install any tool (works on both APT & Pacman)
 pkg install &lt;tool-name&gt;</code></pre>
       </div>
 
       <div class="code-block">
-        <button class="copy-btn">Copy</button>
+        <button class="copy-btn" aria-label="Copy command to clipboard">Copy</button>
         <pre><code># Example
 pkg install metasploit-framework</code></pre>
       </div>
+
+      <p class="section__subtitle" style="margin-top:1rem">
+        On a full Pacman setup you can also use <code>pacman -S &lt;tool-name&gt;</code> directly.
+        Repo sources:
+        <a href="https://github.com/termuxvoid/repo" target="_blank" rel="noopener">APT repo</a> &middot;
+        <a href="https://github.com/termuxvoid/pacman-repo" target="_blank" rel="noopener">Pacman repo</a>
+      </p>
     </div>
   </div>
 
@@ -206,7 +219,8 @@ pkg install metasploit-framework</code></pre>
     <div>
       <h3>Resources</h3>
       <ul>
-        <li><a href="https://github.com/termuxvoid/repo">GitHub Repo</a></li>
+        <li><a href="https://github.com/termuxvoid/repo">APT Repo</a></li>
+        <li><a href="https://github.com/termuxvoid/pacman-repo">Pacman Repo</a></li>
         <li><a href="https://github.com/TermuxVoid/repo/blob/main/assets/PACKAGES.md">Package List</a></li>
         <li><a href="https://github.com/TermuxVoid/repo/blob/main/LICENSE">License</a></li>
       </ul>
