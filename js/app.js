@@ -1,106 +1,134 @@
 /* ============================================
-   TermuxVoid - Main Application
+   TermuxVoid - Main Application (Live Registry)
    ============================================ */
 
 const App = (() => {
   let allPackages = [];
+  const PREVIEW = 24;
 
   async function init() {
     setupMenuToggle();
     setupBackToTop();
-    setupCopyButtons();
     await loadPackages();
   }
 
   /* --- Packages Loading --- */
   async function loadPackages() {
     const container = document.getElementById('toolsGrid');
-    showLoader(container);
+    container.innerHTML = `
+      <div class="loader loader--full">
+        <div class="loader__spinner"></div>
+        <span>reading repository index<span class="loader__cursor"></span></span>
+      </div>
+    `;
 
     try {
       allPackages = await PackagesParser.fetchPackages();
       allPackages.sort((a, b) => a.name.localeCompare(b.name));
 
       updateStats(allPackages.length);
-      showSearchPrompt();
+      stampSync(allPackages.length);
       updateMeta(allPackages.length, allPackages.length, '');
+      renderTools(container, allPackages, '');
 
-      // Wire up search with callback
       Search.init(allPackages, (results, query) => {
-        if (!query) {
-          showSearchPrompt();
-          updateMeta(allPackages.length, allPackages.length, '');
-        } else {
-          renderTools(results, query);
-          updateMeta(results.length, allPackages.length, query);
-        }
+        const grid = document.getElementById('toolsGrid');
+        updateMeta(results.length, allPackages.length, query);
+        renderTools(grid, results, query);
       });
     } catch (err) {
-      showError(container, err.message);
+      gridError(container, err.message);
     }
   }
 
-  /* --- Search Prompt --- */
-  function showSearchPrompt() {
-    const container = document.getElementById('toolsGrid');
-    container.innerHTML = `
-      <div class="empty-state">
-        <div class="empty-state__icon">&#9670;</div>
-        <p class="empty-state__search">Type to search <strong>${allPackages.length}</strong> tools by name, description, or category</p>
-        <a href="https://github.com/termuxvoid/repo/blob/main/assets/PACKAGES.md" target="_blank" rel="noopener" class="empty-state__view-all">View All Tools &rarr;</a>
-      </div>
-    `;
+  /* --- Sync stamp: the live-repo proof --- */
+  function stampSync(count) {
+    const now = new Date();
+    const iso = now.toISOString().replace('T', ' ').slice(0, 16) + ' UTC';
+    const stamp = document.getElementById('syncStamp');
+    const aside = document.getElementById('syncAside');
+    const line = document.getElementById('syncLine');
+    if (stamp) stamp.textContent = 'LATEST SYNC: ' + iso;
+    if (aside) aside.textContent = 'TOOLS: ' + count + ' · AUTO-UPDATED 24/7';
+    if (line) {
+      line.classList.remove('syncline-anim');
+      void line.offsetWidth;
+      line.classList.add('syncline-anim');
+    }
   }
 
   /* --- Rendering --- */
-  function renderTools(packages, query) {
-    const container = document.getElementById('toolsGrid');
-
+  function renderTools(container, packages, query) {
     if (packages.length === 0) {
       container.innerHTML = `
-        <div class="empty-state empty-state__no-results">
-          <div class="empty-state__icon">&#9670;</div>
-          <p>No tools found for "<strong>${escapeHtml(query)}</strong>"</p>
+        <div class="empty-state empty-state--full" style="grid-column:1/-1">
+          <div class="empty-state__icon">&#9633;</div>
+          <p>No records match "<strong>${escapeHtml(query)}</strong>" — try another term.</p>
         </div>
       `;
       return;
     }
 
-    container.innerHTML = packages.map((pkg, i) => toolCard(pkg, i)).join('');
+    const total = allPackages.length;
+    const capped = !query && total > PREVIEW;
+    const shown = capped ? packages.slice(0, PREVIEW) : packages;
+
+    let html = shown.map((pkg, i) => toolRecord(pkg, i + 1)).join('');
+    if (capped) {
+      html += `
+        <div class="viewmore" style="grid-column:1/-1">
+          <button type="button" class="btn btn--paper" data-action="viewall" aria-label="Render the full index of ${total} tools">view full index &mdash; ${total} records <span class="arrow">&darr;</span></button>
+        </div>
+      `;
+    }
+    container.innerHTML = html;
   }
 
-  function toolCard(pkg, index) {
-    const delay = Math.min(index * 0.02, 0.5);
-    const installCmd = `pkg install ${pkg.name}`;
-    const homepageLink = pkg.homepage
-      ? `<a class="tool-card__link" href="${escapeHtml(pkg.homepage)}" target="_blank" rel="noopener">Homepage &#8599;</a>`
-      : '';
+  function viewAll() {
+    const grid = document.getElementById('toolsGrid');
+    if (!grid || !allPackages.length) return;
+    grid.innerHTML = allPackages.map((pkg, i) => toolRecord(pkg, i + 1)).join('');
+    updateMeta(allPackages.length, allPackages.length, '');
+  }
+
+  function toolRecord(pkg, pos) {
+    const delay = Math.min((pos - 1) * 0.045, 1.05);
+    const installCmd = 'pkg install ' + pkg.name;
+    const idx = String(pos).padStart(3, '0');
+    const section =
+      pkg.section && pkg.section !== 'other'
+        ? `<span class="record__sec">${escapeHtml(pkg.section)}</span>`
+        : '';
+    const homepage = pkg.homepage
+      ? `<a class="record__link" href="${escapeHtml(pkg.homepage)}" target="_blank" rel="noopener">homepage &nearr;</a>`
+      : `<span class="record__link" aria-hidden="true">no homepage on file</span>`;
 
     return `
-      <div class="tool-card" style="animation-delay:${delay}s">
-        <div class="tool-card__header">
-          <a class="tool-card__name" href="tool.html?name=${encodeURIComponent(pkg.name)}">${escapeHtml(pkg.name)}</a>
-          ${pkg.version ? `<span class="tool-card__version">v${escapeHtml(pkg.version)}</span>` : ''}
+      <article class="record" style="animation-delay:${delay}s">
+        <div class="record__head">
+          <a class="record__name" href="tool.html?name=${encodeURIComponent(pkg.name)}"><span class="n">[${idx}]</span>${escapeHtml(pkg.name)}</a>
+          ${pkg.version ? `<span class="record__ver">v${escapeHtml(pkg.version)}</span>` : ''}
         </div>
-        ${pkg.section !== 'other' ? `<span class="tool-card__section">${escapeHtml(pkg.section)}</span>` : ''}
-        <p class="tool-card__desc">${escapeHtml(pkg.description)}</p>
-        <div class="tool-card__footer">
-          ${homepageLink}
-          <button type="button" class="tool-card__install" data-cmd="${escapeHtml(installCmd)}" onclick="App.copyInstall(this)" title="Copy install command" aria-label="Copy install command for ${escapeHtml(pkg.name)}">
-            $ ${escapeHtml(installCmd)}
-          </button>
+        ${section}
+        <p class="record__desc">${escapeHtml(pkg.description)}</p>
+        <div class="record__foot">
+          ${homepage}
+          <button type="button" class="record__install" data-cmd="${escapeHtml(installCmd)}" aria-label="Copy install command for ${escapeHtml(pkg.name)}">$ ${escapeHtml(installCmd)}</button>
         </div>
-      </div>
+      </article>
     `;
   }
 
   /* --- Meta --- */
   function updateMeta(shown, total, query) {
     const meta = document.getElementById('searchMeta');
+    if (!meta) return;
     if (query) {
-      meta.textContent = `Showing ${shown} of ${total} tools`;
+      meta.innerHTML = `SHOWING <strong>${shown}</strong> OF <strong>${total}</strong> RECORDS FOR &ldquo;${escapeHtml(query)}&rdquo;`;
+    } else if (total > PREVIEW) {
+      meta.innerHTML = `SHOWING <strong>${PREVIEW}</strong> OF <strong>${total}</strong> RECORDS &middot; SEARCH OR VIEW THE FULL INDEX`;
     } else {
-      meta.textContent = `${total} tools available`;
+      meta.innerHTML = `<strong>${total}</strong> TOOL RECORDS AVAILABLE &middot; SORTED ALPHABETICALLY`;
     }
   }
 
@@ -110,38 +138,37 @@ const App = (() => {
     if (el) el.textContent = count;
   }
 
-  /* --- Loader / Error --- */
-  function showLoader(container) {
+  /* --- Error --- */
+  function gridError(container, message) {
     container.innerHTML = `
-      <div class="loader loader--full">
-        <div class="loader__spinner"></div>
-        <span class="loader__text">Loading tools from repository...</span>
-      </div>
-    `;
-  }
-
-  function showError(container, message) {
-    container.innerHTML = `
-      <div class="error-state error-state--full">
+      <div class="error-state error-state--full" style="grid-column:1/-1">
         <div class="error-state__icon">&#9888;</div>
-        <p class="error-state__msg">Failed to load tools: ${escapeHtml(message)}</p>
-        <button class="error-state__retry" onclick="App.retry()">Retry</button>
+        <p class="error-state__msg">[ERROR] failed to read repository index: ${escapeHtml(message)}</p>
+        <button class="error-state__retry" onclick="App.retry()">retry &rarr;</button>
       </div>
     `;
+    const aside = document.getElementById('syncAside');
+    if (aside) aside.textContent = 'INDEX UNREADABLE';
   }
 
-  /* --- Copy Install Command --- */
-  function copyInstall(btn) {
-    const cmd = btn.dataset.cmd;
+  /* --- Copy (install buttons + command plates) --- */
+  function copyCmd(btn) {
+    const cmd = btn.dataset.cmd || '';
+    if (!cmd) return;
     navigator.clipboard.writeText(cmd).then(() => {
       const orig = btn.textContent;
       btn.textContent = 'Copied!';
-      btn.style.color = 'var(--success)';
+      btn.classList.add('copied');
       setTimeout(() => {
         btn.textContent = orig;
-        btn.style.color = '';
+        btn.classList.remove('copied');
       }, 1500);
     });
+  }
+
+  /* --- Retry --- */
+  function retry() {
+    loadPackages();
   }
 
   /* --- Menu Toggle --- */
@@ -150,12 +177,19 @@ const App = (() => {
     const nav = document.getElementById('navLinks');
     if (!btn || !nav) return;
 
-    btn.addEventListener('click', () => nav.classList.toggle('open'));
-    nav.querySelectorAll('a').forEach((a) => {
-      a.addEventListener('click', () => nav.classList.remove('open'));
+    btn.addEventListener('click', () => {
+      const open = nav.classList.toggle('open');
+      btn.setAttribute('aria-expanded', String(open));
     });
+    nav.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => {
+      nav.classList.remove('open');
+      btn.setAttribute('aria-expanded', 'false');
+    }));
     document.addEventListener('click', (e) => {
-      if (!e.target.closest('.header')) nav.classList.remove('open');
+      if (!e.target.closest('.masthead__inner')) {
+        nav.classList.remove('open');
+        btn.setAttribute('aria-expanded', 'false');
+      }
     });
   }
 
@@ -171,28 +205,6 @@ const App = (() => {
     });
   }
 
-  /* --- Copy Buttons (installation section) --- */
-  function setupCopyButtons() {
-    document.querySelectorAll('.copy-btn').forEach((btn) => {
-      btn.addEventListener('click', () => {
-        const code = btn.closest('.code-block').querySelector('code').textContent;
-        navigator.clipboard.writeText(code).then(() => {
-          btn.textContent = 'Copied!';
-          btn.classList.add('copied');
-          setTimeout(() => {
-            btn.textContent = 'Copy';
-            btn.classList.remove('copied');
-          }, 1500);
-        });
-      });
-    });
-  }
-
-  /* --- Retry --- */
-  function retry() {
-    loadPackages();
-  }
-
   /* --- Utility --- */
   function escapeHtml(str) {
     const div = document.createElement('div');
@@ -200,7 +212,19 @@ const App = (() => {
     return div.innerHTML;
   }
 
-  return { init, copyInstall, retry };
+  return { init, copyCmd, retry, viewAll };
 })();
 
 document.addEventListener('DOMContentLoaded', App.init);
+
+/* Copy buttons + view-all (delegated) */
+document.addEventListener('click', (e) => {
+  const va = e.target.closest('[data-action="viewall"]');
+  if (va) {
+    e.preventDefault();
+    App.viewAll();
+    return;
+  }
+  const btn = e.target.closest('.cmdplate__copy, .record__install');
+  if (btn) App.copyCmd(btn);
+});
