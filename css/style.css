@@ -36,6 +36,246 @@
   --shadow-file: 0 3px 0 rgba(21, 23, 28, 0.1), 0 16px 32px rgba(21, 23, 28, 0.12);
 }
 
+/* --- Dark theme overrides: black stock, blue stamp, green perfections. No grey. --- */
+[data-theme='dark'] {
+  --paper: #000000;
+  --paper-bright: #05090f;
+  --paper-band: #0a1220;
+  --paper-stock: #02050a;
+  --ink: #dcecff;
+  --ink-2: #b6d3f7;
+  --ink-3: #7fb4ef;
+  --rule: #16304f;
+  --rule-strong: #2b5a8f;
+  --stamp: #4d9dff;
+  --stamp-deep: #8cc2ff;
+  --stamp-soft: rgba(77, 157, 255, 0.16);
+  --teal: #4ec8d6;
+  --ok: #2fe080;
+  --ok-deep: #7ff0b3;
+  --ok-soft: rgba(47, 224, 128, 0.14);
+  --amber: #ffc94d;
+  --amber-soft: rgba(255, 201, 77, 0.14);
+  --bad: #ff5f52;
+  --shadow-print: 0 1px 0 rgba(0, 0, 0, 0.5);
+  --shadow-form: 0 2px 0 rgba(77, 157, 255, 0.25), 0 8px 18px rgba(0, 0, 0, 0.6);
+  --shadow-file: 0 3px 0 rgba(77, 157, 255, 0.2), 0 16px 32px rgba(0, 0, 0, 0.65);
+}
+
+/* Faint blue dot field on the black stock */
+[data-theme='dark'] body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: radial-gradient(rgba(77, 157, 255, 0.16) 1px, transparent 1px);
+  background-size: 22px 22px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* --- Masthead becomes black binder band with a blue stamp edge --- */
+[data-theme='dark'] .masthead {
+  background: var(--paper);
+  border-bottom-color: var(--stamp);
+}
+
+[data-theme='dark'] .masthead__brand {
+  color: var(--ink);
+}
+
+[data-theme='dark'] .masthead__brand:hover {
+  color: var(--stamp);
+}
+
+[data-theme='dark'] .masthead__brand .mark {
+  background: var(--paper-bright);
+  border-color: var(--stamp-deep);
+}
+
+[data-theme='dark'] .masthead__nav a {
+  color: var(--ink-2);
+  border-color: transparent;
+}
+
+[data-theme='dark'] .masthead__nav a:hover {
+  color: var(--ink);
+  background: var(--stamp-soft);
+  border-color: var(--stamp);
+}
+
+[data-theme='dark'] .masthead__nav a.active {
+  background: var(--stamp);
+  color: #000;
+}
+
+[data-theme='dark'] .theme-toggle {
+  color: var(--ink);
+  background: var(--stamp-soft);
+  border-color: var(--stamp);
+}
+
+[data-theme='dark'] .theme-toggle:hover {
+  background: var(--stamp);
+  color: #000;
+}
+
+[data-theme='dark'] .masthead__menu {
+  color: var(--ink);
+  border-color: var(--stamp-deep);
+}
+
+@media (max-width: 768px) {
+  [data-theme='dark'] .masthead__nav {
+    background: #000;
+    border-bottom-color: var(--stamp);
+  }
+}
+
+/* --- Command plates: deep blue terminal with light ink --- */
+[data-theme='dark'] .cmdplate {
+  background: #071228;
+  border-color: var(--stamp);
+}
+
+[data-theme='dark'] .cmdplate pre {
+  background: #071228;
+  color: var(--ink);
+}
+
+[data-theme='dark'] .cmdplate code {
+  color: var(--ink);
+}
+
+[data-theme='dark'] .cmdplate__label {
+  background: #0a1880;
+  color: var(--ink);
+  border-bottom-color: var(--stamp);
+}
+
+[data-theme='dark'] .cmdplate__label .idx {
+  color: var(--ok-deep);
+}
+
+[data-theme='dark'] .cmdplate__copy {
+  background: var(--paper-bright);
+  border-color: var(--stamp-deep);
+  color: var(--ink);
+}
+
+[data-theme='dark'] .cmdplate__copy:hover,
+[data-theme='dark'] .cmdplate__copy.copied {
+  background: var(--ok);
+  color: #000;
+}
+
+[data-theme='dark'] .syncline {
+  background: #071228;
+  border: 1px solid var(--stamp);
+  color: var(--ink);
+}
+
+[data-theme='dark'] .syncline .sync {
+  background: var(--ok);
+  border-color: #000;
+  color: #000;
+}
+
+[data-theme='dark'] .syncline .aside {
+  color: var(--ink-2);
+}
+
+[data-theme='dark'] .record__ver {
+  background: var(--stamp);
+  color: #000;
+}
+
+[data-theme='dark'] .cover {
+  background:
+    linear-gradient(0deg, var(--paper-band) 1px, transparent 1px),
+    var(--paper);
+  background-size: 100% 56px;
+}
+
+[data-theme='dark'] .btn {
+  border-color: var(--stamp);
+  color: #000;
+}
+
+[data-theme='dark'] .btn:hover,
+[data-theme='dark'] .btn--paper:hover,
+[data-theme='dark'] .btn--ghost:hover {
+  background: var(--stamp-deep);
+  border-color: var(--stamp-deep);
+  color: #000;
+}
+
+[data-theme='dark'] .btn--paper {
+  background: #071228;
+  border-color: var(--stamp);
+  color: var(--ink);
+}
+
+[data-theme='dark'] .btn--ghost {
+  background: transparent;
+  color: var(--stamp-deep);
+}
+
+[data-theme='dark'] .desk a {
+  color: var(--ink);
+  border-color: var(--stamp);
+  background: #071228;
+}
+
+[data-theme='dark'] .desk a:hover {
+  background: var(--stamp);
+  color: #000;
+}
+
+[data-theme='dark'] .back-to-top {
+  background: var(--paper-bright);
+  border-color: var(--stamp);
+  color: var(--ink);
+}
+
+[data-theme='dark'] .back-to-top:hover {
+  background: var(--stamp);
+  color: #000;
+}
+
+[data-theme='dark'] .toast {
+  background: #071228;
+  border-color: var(--stamp);
+  box-shadow: 4px 4px 0 var(--ok);
+  color: var(--ink);
+}
+
+[data-theme='dark'] .form-block h2 {
+  background: var(--stamp);
+  color: #000;
+}
+
+/* --- Category inks stay in the blue/green family on black --- */
+[data-theme='dark'] .record[data-sec='web'],
+[data-theme='dark'] .record-sheet[data-sec='web'] {
+  --sec-ink: #57dca8;
+  --sec-soft: rgba(87, 220, 168, 0.14);
+  --sec-edge: var(--teal);
+}
+
+[data-theme='dark'] .record[data-sec='devel'],
+[data-theme='dark'] .record-sheet[data-sec='devel'] {
+  --sec-ink: #6ec4ff;
+  --sec-soft: rgba(110, 196, 255, 0.14);
+  --sec-edge: var(--stamp);
+}
+
+[data-theme='dark'] .record[data-sec='other'],
+[data-theme='dark'] .record-sheet[data-sec='other'] {
+  --sec-ink: var(--ink-2);
+  --sec-soft: rgba(182, 211, 247, 0.1);
+  --sec-edge: var(--rule-strong);
+}
+
 /* --- Reset & base --- */
 *,
 *::before,
@@ -230,6 +470,43 @@ textarea {
   font-size: 1.2rem;
   line-height: 1;
   padding: 0.35rem 0.6rem;
+}
+
+/* --- Theme switcher --- */
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-left: auto;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  color: var(--paper-bright);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 0.4rem 0.7rem;
+  cursor: pointer;
+  transition: background 0.18s var(--ease-out), border-color 0.18s var(--ease-out);
+}
+
+.theme-toggle:hover {
+  background: rgba(255, 255, 255, 0.22);
+  border-color: rgba(255, 255, 255, 0.8);
+}
+
+.theme-toggle .theme-ico {
+  font-size: 0.95rem;
+  line-height: 1;
+}
+
+.theme-toggle[data-theme='dark'] {
+  background: rgba(0, 0, 0, 0.25);
+}
+
+.theme-toggle[data-theme='dark']:hover {
+  background: rgba(0, 0, 0, 0.35);
 }
 
 /* --- Shared shell --- */
@@ -1610,6 +1887,11 @@ p code {
 
   .masthead__menu {
     display: block;
+  }
+
+  .theme-toggle {
+    padding: 0.35rem 0.55rem;
+    font-size: 0.7rem;
   }
 
   .records {

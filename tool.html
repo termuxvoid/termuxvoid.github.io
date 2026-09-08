@@ -15,6 +15,19 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Martian+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
+  <script>
+    (function () {
+      try {
+        var saved = localStorage.getItem('termuxvoid-theme');
+        var theme = saved === 'dark' || saved === 'light'
+          ? saved
+          : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-theme', theme);
+        var meta = document.querySelector('meta[name="theme-color"]');
+        if (meta) meta.setAttribute('content', theme === 'dark' ? '#000000' : '#1d3bb3');
+      } catch (e) {}
+    })();
+  </script>
 </head>
 <body>
 
@@ -25,6 +38,7 @@
         <span class="mark"><img src="https://github.com/termuxvoid/repo/raw/main/img/termuxvoid_logo.png" alt="TermuxVoid Logo" loading="lazy"></span>
         <span class="wordmark">TermuxVoid</span>
       </a>
+      <button class="theme-toggle" type="button" aria-label="Toggle theme"><span class="theme-ico"></span><span class="theme-lbl"></span></button>
       <button class="masthead__menu" id="menuBtn" aria-label="Toggle menu" aria-expanded="false">MENU</button>
       <nav class="masthead__nav" id="navLinks" aria-label="Primary">
         <a href="index.html">Home</a>
@@ -76,6 +90,7 @@
 
   <!-- ========== Scripts ========== -->
   <script src="js/packages.js"></script>
+  <script src="js/theme.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', async () => {
       const container = document.getElementById('toolDetail');
