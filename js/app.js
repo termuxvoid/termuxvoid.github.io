@@ -8,7 +8,7 @@ const App = (() => {
 
   async function init() {
     setupMenuToggle();
-    setupBackToTop();
+    setupScrollChrome();
     await loadPackages();
   }
 
@@ -91,20 +91,36 @@ const App = (() => {
     updateMeta(allPackages.length, allPackages.length, '');
   }
 
+  const SEC_KEY = {
+    net: 'net',
+    network: 'net',
+    networking: 'net',
+    security: 'security',
+    recon: 'recon',
+    web: 'web',
+    devel: 'devel',
+    development: 'devel',
+  };
+
+  function secKey(section) {
+    return SEC_KEY[String(section || '').trim().toLowerCase()] || 'other';
+  }
+
   function toolRecord(pkg, pos) {
-    const delay = Math.min((pos - 1) * 0.045, 1.05);
+    const delay = Math.min((pos - 1) * 0.035, 0.63);
     const installCmd = 'pkg install ' + pkg.name;
     const idx = String(pos).padStart(3, '0');
+    const skey = secKey(pkg.section);
     const section =
       pkg.section && pkg.section !== 'other'
-        ? `<span class="record__sec">${escapeHtml(pkg.section)}</span>`
+        ? `<span class="record__sec" data-sec="${skey}">${escapeHtml(pkg.section)}</span>`
         : '';
     const homepage = pkg.homepage
       ? `<a class="record__link" href="${escapeHtml(pkg.homepage)}" target="_blank" rel="noopener">homepage &nearr;</a>`
       : `<span class="record__link" aria-hidden="true">no homepage on file</span>`;
 
     return `
-      <article class="record" style="animation-delay:${delay}s">
+      <article class="record" data-sec="${skey}" style="animation-delay:${delay}s">
         <div class="record__head">
           <a class="record__name" href="tool.html?name=${encodeURIComponent(pkg.name)}"><span class="n">[${idx}]</span>${escapeHtml(pkg.name)}</a>
           ${pkg.version ? `<span class="record__ver">v${escapeHtml(pkg.version)}</span>` : ''}
@@ -135,7 +151,21 @@ const App = (() => {
   /* --- Stats --- */
   function updateStats(count) {
     const el = document.getElementById('toolCount');
-    if (el) el.textContent = count;
+    if (!el) return;
+    const reduce =
+      window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce) {
+      el.textContent = count;
+      return;
+    }
+    const start = performance.now();
+    const dur = 640;
+    const step = (t) => {
+      const p = Math.min((t - start) / dur, 1);
+      el.textContent = Math.round((1 - Math.pow(1 - p, 3)) * count);
+      if (p < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
   }
 
   /* --- Error --- */
@@ -193,16 +223,42 @@ const App = (() => {
     });
   }
 
-  /* --- Back to Top --- */
-  function setupBackToTop() {
+  /* --- Scroll chrome: back-to-top, document-feed rail, section scrollspy --- */
+  function setupScrollChrome() {
     const btn = document.getElementById('backToTop');
-    if (!btn) return;
-    window.addEventListener('scroll', () => {
-      btn.classList.toggle('visible', window.scrollY > 400);
-    });
-    btn.addEventListener('click', () => {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
+    const feed = document.getElementById('feed');
+    const navLinks = Array.prototype.slice.call(
+      document.querySelectorAll('.masthead__nav a[href^="#"]')
+    );
+    const sections = navLinks
+      .map((a) => document.querySelector(a.getAttribute('href')))
+      .filter(Boolean);
+
+    function onScroll() {
+      const y = window.scrollY;
+      if (btn) btn.classList.toggle('visible', y > 400);
+      if (feed) {
+        const max = document.documentElement.scrollHeight - window.innerHeight;
+        feed.style.transform = 'scaleY(' + (max > 0 ? Math.min(y / max, 1) : 0) + ')';
+      }
+      if (sections.length) {
+        let current = sections[0];
+        for (let i = 0; i < sections.length; i++) {
+          if (sections[i].offsetTop - 140 <= y) current = sections[i];
+        }
+        navLinks.forEach((a, i) => a.classList.toggle('active', sections[i] === current));
+      }
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+    onScroll();
+
+    if (btn) {
+      btn.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    }
   }
 
   /* --- Utility --- */

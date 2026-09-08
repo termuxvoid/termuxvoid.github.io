@@ -112,6 +112,8 @@
         const installCmd = `pkg install ${tool.name}`;
         const deps = tool.depends ? tool.depends.split(',').map(d => d.trim()) : [];
         const sizeKB = tool.size ? (parseInt(tool.size, 10) / 1024).toFixed(1) : '0';
+        const SEC_MAP = { net: 'net', network: 'net', networking: 'net', security: 'security', recon: 'recon', web: 'web', devel: 'devel', development: 'devel' };
+        const skey = SEC_MAP[String(tool.section || '').trim().toLowerCase()] || 'other';
 
         const checksums = [
           ['SHA256', tool.sha256],
@@ -121,7 +123,7 @@
         container.innerHTML = `
           <a class="detail__back" href="index.html">&larr; back to the index</a>
 
-          <div class="record-sheet">
+          <div class="record-sheet" data-sec="${skey}">
             <h1>${esc(tool.name)}</h1>
             <p class="vline">v${esc(tool.version)} <span class="sec">// ${esc(tool.section)}</span></p>
 

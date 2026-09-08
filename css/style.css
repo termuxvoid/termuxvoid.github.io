@@ -20,6 +20,10 @@
   --stamp-soft: rgba(29, 59, 179, 0.07);
   --teal: #0e6f78;
   --ok: #17744f;
+  --ok-deep: #125c40;
+  --ok-soft: rgba(23, 116, 79, 0.09);
+  --amber: #925600;
+  --amber-soft: rgba(146, 86, 0, 0.09);
   --bad: #b3261e;
   --radius: 0px;
   --max-width: 1120px;
@@ -203,6 +207,7 @@ textarea {
   color: var(--paper-bright);
   text-decoration: none;
   border: 1px solid transparent;
+  transition: background 0.18s var(--ease-out), color 0.18s var(--ease-out), border-color 0.18s var(--ease-out);
 }
 
 .masthead__nav a:hover {
@@ -307,6 +312,21 @@ textarea {
   font-weight: 600;
 }
 
+.cover__spine .status {
+  color: var(--ok-deep);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45em;
+  font-weight: 700;
+}
+
+.cover__spine .status::before {
+  content: '';
+  width: 0.55em;
+  height: 0.55em;
+  background: var(--ok);
+}
+
 .cover h1 {
   font-family: var(--font-mono);
   font-weight: 700;
@@ -336,6 +356,17 @@ p code {
   background: var(--paper-band);
   border: 1px solid var(--rule);
   padding: 0.05em 0.35em;
+}
+
+.cover__lede .brand {
+  color: var(--stamp-deep);
+}
+
+.cover__lede code.term {
+  color: var(--ok-deep);
+  background: var(--ok-soft);
+  border-color: rgba(23, 116, 79, 0.4);
+  font-weight: 700;
 }
 
 /* Field table */
@@ -398,7 +429,7 @@ p code {
 }
 
 .syncline .sync {
-  background: var(--stamp);
+  background: var(--ok);
   padding: 0.15rem 0.45rem;
   font-weight: 700;
   border: 1px solid var(--paper-bright);
@@ -411,10 +442,13 @@ p code {
   animation: stampIn 0.5s var(--ease-out);
 }
 
+/* The sync datestamp presses in once per load: a hand-stamped slam that
+   settles straight, then the ink takes. The one authored moment on the page. */
 @keyframes stampIn {
-  0%   { transform: translateY(11px) scale(1.06); opacity: 0; }
-  62%  { transform: translateY(0) scale(1); opacity: 1; }
-  100% { transform: translateY(0) scale(1); }
+  0%   { transform: translateY(-18px) rotate(-3deg) scale(1.14); opacity: 0; }
+  55%  { transform: translateY(2px) rotate(1.2deg) scale(1.04); opacity: 1; }
+  75%  { transform: translateY(-1px) rotate(-0.6deg) scale(0.99); }
+  100% { transform: translateY(0) rotate(0) scale(1); }
 }
 
 .syncline .aside {
@@ -490,6 +524,24 @@ p code {
   border: 1px solid var(--ink);
   margin: 0.9rem 0;
   box-shadow: var(--shadow-form);
+}
+
+.cmdplate::before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  right: -1px;
+  height: 4px;
+  background: var(--plate-ink, var(--ink));
+}
+
+.cmdplate--primary {
+  --plate-ink: var(--stamp);
+}
+
+.cmdplate--live {
+  --plate-ink: var(--ok);
 }
 
 .cmdplate__label {
@@ -625,7 +677,7 @@ p code {
 }
 
 .stats-table .v.live {
-  color: var(--stamp);
+  color: var(--ok);
 }
 
 /* --- Search --- */
@@ -767,7 +819,7 @@ p code {
   left: -1px;
   right: -1px;
   height: 4px;
-  background: var(--stamp);
+  background: var(--sec-ink, var(--ink-3));
   transform-origin: left;
   animation: register 0.34s var(--ease-out) backwards;
   animation-delay: inherit;
@@ -827,12 +879,39 @@ p code {
   font-size: 0.66rem;
   font-weight: 600;
   letter-spacing: 0.05em;
-  color: var(--stamp-deep);
-  background: var(--stamp-soft);
-  border: 1px solid var(--stamp);
+  color: var(--sec-ink, var(--ink-3));
+  background: var(--sec-soft, rgba(93, 100, 112, 0.08));
+  border: 1px solid var(--sec-edge, var(--rule));
   padding: 0.14rem 0.45rem;
   margin: 0 1.05rem 0.65rem;
   text-transform: capitalize;
+}
+
+/* Category ink: the index classifies each record by an archival ink,
+   so sections are legible at a glance without losing their labels. */
+.record[data-sec='net'],
+.record[data-sec='security'] {
+  --sec-ink: var(--stamp-deep);
+  --sec-soft: var(--stamp-soft);
+  --sec-edge: var(--stamp);
+}
+
+.record[data-sec='recon'] {
+  --sec-ink: var(--ok-deep);
+  --sec-soft: var(--ok-soft);
+  --sec-edge: var(--ok);
+}
+
+.record[data-sec='web'] {
+  --sec-ink: #7a4a00;
+  --sec-soft: var(--amber-soft);
+  --sec-edge: var(--amber);
+}
+
+.record[data-sec='devel'] {
+  --sec-ink: #0b5560;
+  --sec-soft: rgba(14, 111, 120, 0.1);
+  --sec-edge: var(--teal);
 }
 
 .record__desc {
@@ -1214,6 +1293,21 @@ p code {
   color: var(--paper-bright);
 }
 
+/* --- Document feed rail: the binder-margin progress line --- */
+.feed {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 3px;
+  z-index: 950;
+  background: var(--stamp);
+  transform: scaleY(0);
+  transform-origin: top;
+  will-change: transform;
+  pointer-events: none;
+}
+
 /* --- Toast --- */
 .toast {
   position: fixed;
@@ -1274,6 +1368,33 @@ p code {
   padding: 2rem;
   position: relative;
   animation: sheetIn 0.42s var(--ease-out) backwards;
+  --sec-ink: var(--stamp-deep);
+  --sec-soft: var(--stamp-soft);
+  --sec-edge: var(--stamp);
+}
+
+.record-sheet[data-sec='recon'] {
+  --sec-ink: var(--ok-deep);
+  --sec-soft: var(--ok-soft);
+  --sec-edge: var(--ok);
+}
+
+.record-sheet[data-sec='web'] {
+  --sec-ink: #7a4a00;
+  --sec-soft: var(--amber-soft);
+  --sec-edge: var(--amber);
+}
+
+.record-sheet[data-sec='devel'] {
+  --sec-ink: #0b5560;
+  --sec-soft: rgba(14, 111, 120, 0.1);
+  --sec-edge: var(--teal);
+}
+
+.record-sheet[data-sec='other'] {
+  --sec-ink: var(--ink-3);
+  --sec-soft: rgba(93, 100, 112, 0.08);
+  --sec-edge: var(--rule);
 }
 
 @keyframes sheetIn {
@@ -1288,7 +1409,7 @@ p code {
   left: -1px;
   right: -1px;
   height: 6px;
-  background: var(--stamp);
+  background: var(--sec-ink, var(--stamp));
 }
 
 .record-sheet h1 {
@@ -1310,7 +1431,7 @@ p code {
 }
 
 .record-sheet .vline .sec {
-  color: var(--stamp);
+  color: var(--sec-ink, var(--stamp));
   font-weight: 700;
 }
 
@@ -1339,7 +1460,7 @@ p code {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.07em;
-  color: var(--stamp);
+  color: var(--sec-ink, var(--stamp));
   margin-bottom: 0.2rem;
 }
 

@@ -20,6 +20,9 @@
 </head>
 <body>
 
+  <!-- Document feed rail -->
+  <div class="feed" id="feed" aria-hidden="true"></div>
+
   <!-- ========== Masthead ========== -->
   <header class="masthead">
     <div class="masthead__inner">
@@ -43,11 +46,11 @@
     <div class="cover__inner">
       <div class="cover__spine">
         <span class="ref">N&deg; TVD-2026 // UNOFFICIAL DISTRIBUTION</span>
-        <span>STATUS: ACTIVE</span>
+        <span class="status">STATUS: ACTIVE</span>
       </div>
 
       <h1>TermuxVoid <span class="accent">//</span> Security Tool Repository</h1>
-      <p class="cover__lede">Unofficial custom repository for Termux: extra security tools for ethical hacking, bug bounty, cyber security &amp; reverse engineering. The same tools ship as both an <strong>APT (dpkg)</strong> and a <strong>Pacman</strong> repository, compiled natively for Android. One command works on either setup: <code>pkg install &lt;tool&gt;</code>.</p>
+      <p class="cover__lede">Unofficial custom repository for Termux: extra security tools for ethical hacking, bug bounty, cyber security &amp; reverse engineering. The same tools ship as both an <strong class="brand">APT (dpkg)</strong> and a <strong class="brand">Pacman</strong> repository, compiled natively for Android. One command works on either setup: <code class="term">pkg install &lt;tool&gt;</code>.</p>
 
       <table class="field-table">
         <tbody>
@@ -77,7 +80,7 @@
 
       <div class="cover__install">
         <p class="cover__install-title">One command adds the repository</p>
-        <div class="cmdplate">
+        <div class="cmdplate cmdplate--primary">
           <div class="cmdplate__label"><span>add repository</span><span class="idx">CMD.00</span><button class="cmdplate__copy" aria-label="Copy add-repository command" data-cmd="curl -sL https://github.com/termuxvoid/repo/raw/main/install.sh | bash">Copy</button></div>
           <pre><code>curl -sL https://github.com/termuxvoid/repo/raw/main/install.sh | bash</code></pre>
         </div>
@@ -159,13 +162,13 @@ repository index…</span></div></div>
       </div>
       <p class="section__subtitle">TermuxVoid ships the same tools for both APT (dpkg) and Pacman Termux. Add the repo that matches your setup, then install any tool with <code>pkg install</code>. It works on both.</p>
 
-      <div class="cmdplate">
+      <div class="cmdplate cmdplate--primary">
         <div class="cmdplate__label"><span>APT / dpkg setup</span><span class="idx">CMD.01</span><button class="cmdplate__copy" aria-label="Copy APT add-repository command" data-cmd="# Add APT repository&#10;curl -sL https://github.com/termuxvoid/repo/raw/main/install.sh | bash">Copy</button></div>
         <pre><code># Add APT repository
 curl -sL https://github.com/termuxvoid/repo/raw/main/install.sh | bash</code></pre>
       </div>
 
-      <div class="cmdplate">
+      <div class="cmdplate cmdplate--primary">
         <div class="cmdplate__label"><span>Pacman setup</span><span class="idx">CMD.02</span><button class="cmdplate__copy" aria-label="Copy Pacman add-repository command" data-cmd="# Add Pacman repository&#10;curl -sL https://github.com/termuxvoid/pacman-repo/raw/main/install-repo.sh | bash">Copy</button></div>
         <pre><code># Add Pacman repository
 curl -sL https://github.com/termuxvoid/pacman-repo/raw/main/install-repo.sh | bash</code></pre>
@@ -176,7 +179,7 @@ curl -sL https://github.com/termuxvoid/pacman-repo/raw/main/install-repo.sh | ba
         <pre><code>pkg install &lt;tool-name&gt;</code></pre>
       </div>
 
-      <div class="cmdplate">
+      <div class="cmdplate cmdplate--live">
         <div class="cmdplate__label"><span>Example install</span><span class="idx">CMD.04</span><button class="cmdplate__copy" aria-label="Copy example install command" data-cmd="pkg install metasploit-framework">Copy</button></div>
         <pre><code>pkg install metasploit-framework</code></pre>
       </div>
