@@ -31,7 +31,7 @@ const Theme = (() => {
     document.documentElement.setAttribute('data-theme', theme);
     const meta = document.querySelector('meta[name="theme-color"]');
     if (meta) {
-      const color = theme === 'dark' ? '#000000' : '#1d3bb3';
+      const color = theme === 'dark' ? '#070a12' : '#1d4ed8';
       meta.setAttribute('content', color);
     }
     syncToggle(theme);
