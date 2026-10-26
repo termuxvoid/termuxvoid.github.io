@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="bitb-framework">
+<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="hsl(86,52%,31%)"/><stop offset="1" stop-color="hsl(86,58%,19%)"/></linearGradient></defs>
+<rect width="64" height="64" rx="14" fill="url(#g)"/>
+<rect x="1.1" y="1.1" width="61.8" height="61.8" rx="13" fill="none" stroke="hsl(86,78%,68%)" stroke-opacity=".38"/>
+<g fill="none" stroke="#fff" stroke-width="2.8" stroke-linejoin="round"><rect x="11" y="15" width="42" height="34" rx="6"/><path d="M11 25h42"/><circle cx="19" cy="20" r="1.5" fill="#fff" stroke="none"/><circle cx="25" cy="20" r="1.5" fill="#fff" stroke="none"/><path d="M19 34h10M19 40h18" stroke-width="2.4"/></g>
+</svg>

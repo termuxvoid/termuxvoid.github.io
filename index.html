@@ -3,217 +3,197 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="TermuxVoid - Unofficial custom repository for Termux. Extra security tools for ethical hacking, bug bounty, cyber security & reverse engineering. Ships both APT (dpkg) and Pacman repositories, so pkg install works on either setup. Compiled natively for Android.">
+  <meta name="description" content="TermuxVoid is an unofficial Termux repository with security tools for ethical hacking, bug bounty, and reverse engineering. Ships as APT and Pacman repositories, compiled natively for Android.">
   <meta name="keywords" content="termux, security tools, pentesting, apt repository, pacman repository, termuxvoid">
-  <meta name="theme-color" content="#1d4ed8">
-  <title>TermuxVoid Repository — APT &amp; Pacman</title>
-  <link rel="icon" href="https://github.com/termuxvoid/repo/raw/main/img/termuxvoid_logo.png" type="image/png">
-  <meta property="og:title" content="TermuxVoid Repository — APT &amp; Pacman">
-  <meta property="og:description" content="Unofficial custom repository for Termux. Ethical hacking, bug bounty & cyber security tools — available for both APT and Pacman setups.">
-  <meta property="og:image" content="https://github.com/termuxvoid/repo/raw/main/img/termuxvoid_logo.png">
+  <meta name="theme-color" content="#0b0712">
+  <script src="js/theme.js"></script>
+  <title>TermuxVoid — Security tools for Termux</title>
+  <link rel="icon" href="assets/favicon.png" type="image/png">
+  <meta property="og:title" content="TermuxVoid — Security tools for Termux">
+  <meta property="og:description" content="Security tools for Termux, shipped as APT and Pacman repositories. Browse the live registry.">
+  <meta property="og:image" content="assets/logo.png">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://termuxvoid.github.io">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Martian+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
-  <script>
-    (function () {
-      try {
-        var saved = localStorage.getItem('termuxvoid-theme');
-        var theme = saved === 'dark' || saved === 'light'
-          ? saved
-          : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-        document.documentElement.setAttribute('data-theme', theme);
-        var meta = document.querySelector('meta[name="theme-color"]');
-        if (meta) meta.setAttribute('content', theme === 'dark' ? '#070a12' : '#1d4ed8');
-      } catch (e) {}
-    })();
-  </script>
 </head>
 <body>
 
-  <!-- Document feed rail -->
   <div class="feed" id="feed" aria-hidden="true"></div>
 
-  <!-- ========== Masthead ========== -->
   <header class="masthead">
     <div class="masthead__inner">
-      <a class="masthead__brand" href="#">
-        <span class="mark"><img src="https://github.com/termuxvoid/repo/raw/main/img/termuxvoid_logo.png" alt="TermuxVoid Logo" loading="lazy"></span>
+      <a class="masthead__brand" href="#top">
+        <span class="mark"><img src="assets/logo.png" alt="TermuxVoid logo" width="28" height="28"></span>
         <span class="wordmark">TermuxVoid</span>
       </a>
-      <button class="theme-toggle" type="button" aria-label="Toggle theme"><span class="theme-ico"></span><span class="theme-lbl"></span></button>
-      <button class="masthead__menu" id="menuBtn" aria-label="Toggle menu" aria-expanded="false">MENU</button>
       <nav class="masthead__nav" id="navLinks" aria-label="Primary">
         <a href="#overview">Overview</a>
         <a href="#tools">Tools</a>
-        <a href="#installation">Installation</a>
+        <a href="#installation">Install</a>
         <a href="#faq">FAQ</a>
         <a href="#support">Support</a>
       </nav>
+      <button class="theme-toggle" type="button" aria-label="Switch theme"><span class="theme-ico"></span><span class="theme-lbl"></span></button>
+      <button class="masthead__menu" id="menuBtn" type="button" aria-label="Toggle menu" aria-controls="navLinks" aria-expanded="false"><span></span><span></span><span></span></button>
     </div>
   </header>
 
-  <!-- ========== Cover Sheet ========== -->
-  <section class="cover" id="top">
-    <div class="cover__inner">
-      <div class="cover__spine">
-        <span class="ref">N&deg; TVD-2026 // UNOFFICIAL DISTRIBUTION</span>
-        <span class="status">STATUS: ACTIVE</span>
-      </div>
+  <section class="hero" id="top">
+    <div class="hero__inner">
+      <div class="hero__copy">
+        <div class="hero__eyebrow">
+          <span class="status"><i></i> Repository active</span>
+          <span class="hero__ref">TVD-2026 · APT + PACMAN</span>
+        </div>
+        <h1>Security tools,<br><span>built for Termux.</span></h1>
+        <p class="hero__lede">An unofficial repository for ethical hacking, bug bounty, and reverse engineering. Native Android builds, the same tools on APT and Pacman, one command to install.</p>
 
-      <h1>TermuxVoid <span class="accent">//</span> Security Tool Repository</h1>
-      <p class="cover__lede">Unofficial custom repository for Termux: extra security tools for ethical hacking, bug bounty, cyber security &amp; reverse engineering. The same tools ship as both an <strong class="brand">APT (dpkg)</strong> and a <strong class="brand">Pacman</strong> repository, compiled natively for Android. One command works on either setup: <code class="term">pkg install &lt;tool&gt;</code>.</p>
+        <div class="hero__actions">
+          <a class="btn" href="#tools">Browse tools <span class="arrow">↓</span></a>
+          <a class="btn btn--ghost" href="#installation">Setup repo <span class="arrow">→</span></a>
+        </div>
 
-      <table class="field-table">
-        <tbody>
-          <tr>
-            <th scope="row">Repositories</th>
-            <td><span class="mono">APT (dpkg)</span> + <span class="mono">Pacman</span> · the same tools in both</td>
-          </tr>
-          <tr>
-            <th scope="row">Install interface</th>
-            <td><span class="mono">pkg install &lt;tool-name&gt;</span> · identical on APT &amp; Pacman</td>
-          </tr>
-          <tr>
-            <th scope="row">Platform</th>
-            <td>Android / Termux · native builds</td>
-          </tr>
-          <tr>
-            <th scope="row">Source</th>
-            <td><span class="mono">100% open source</span> (BSD-3-Clause) &middot; <a href="https://github.com/TermuxVoid/repo" target="_blank" rel="noopener">github.com/TermuxVoid/repo</a></td>
-          </tr>
-        </tbody>
-      </table>
-
-      <div class="syncline" id="syncLine">
-        <span class="sync"><span class="sync-ico">&#9632;</span><span id="syncStamp">LATEST SYNC: —</span></span>
-        <span class="aside" id="syncAside">loading index from repository…</span>
-      </div>
-
-      <div class="cover__install">
-        <p class="cover__install-title">One command adds the repository</p>
-        <div class="cmdplate cmdplate--primary">
-          <div class="cmdplate__label"><span>add repository</span><span class="idx">CMD.00</span><button class="cmdplate__copy" aria-label="Copy add-repository command" data-cmd="curl -sL https://github.com/termuxvoid/repo/raw/main/install.sh | bash">Copy</button></div>
-          <pre><code>curl -sL https://github.com/termuxvoid/repo/raw/main/install.sh | bash</code></pre>
+        <div class="hero__meta">
+          <span><b id="heroCount">—</b> tools</span>
+          <span>APT <i>+</i> Pacman</span>
+          <span>BSD-3-Clause</span>
         </div>
       </div>
 
-      <div class="cover__actions">
-        <a class="btn" href="#tools">Browse the index <span class="arrow">&darr;</span></a>
-        <a class="btn btn--paper" href="#installation">Add a pacman repo <span class="arrow">&rarr;</span></a>
-        <a class="btn btn--ghost" href="https://github.com/TermuxVoid" target="_blank" rel="noopener">GitHub org <span class="arrow">&nearr;</span></a>
-      </div>
-
-      <div class="badge-row">
-        <a href="https://github.com/TermuxVoid/repo/stargazers" target="_blank" rel="noopener">
-          <img src="https://img.shields.io/github/stars/TermuxVoid/repo?style=flat&logo=github&color=4d8dff&labelColor=0d1322&logoColor=e9eefc" alt="GitHub Stars">
-        </a>
-        <a href="https://github.com/TermuxVoid/repo/blob/main/LICENSE" target="_blank" rel="noopener">
-          <img src="https://img.shields.io/badge/License-BSD_3--Clause-0e6f78&style=flat&logo=opensourceinitiative&logoColor=e9eefc&labelColor=0d1322" alt="License">
-        </a>
+      <div class="hero__showcase" aria-hidden="true">
+        <div class="mosaic">
+          <span class="mosaic__tile"><img src="assets/icons/sqlmap.svg" alt="" width="52" height="52"></span>
+          <span class="mosaic__tile"><img src="assets/icons/metasploit-framework.svg" alt="" width="52" height="52"></span>
+          <span class="mosaic__tile"><img src="assets/icons/hashcat.svg" alt="" width="52" height="52"></span>
+          <span class="mosaic__tile"><img src="assets/icons/ffuf.svg" alt="" width="52" height="52"></span>
+          <span class="mosaic__tile"><img src="assets/icons/nuclei.svg" alt="" width="52" height="52"></span>
+          <span class="mosaic__tile"><img src="assets/icons/sherlock.svg" alt="" width="52" height="52"></span>
+          <span class="mosaic__tile"><img src="assets/icons/bettercap.svg" alt="" width="52" height="52"></span>
+          <span class="mosaic__tile"><img src="assets/icons/ghidra.svg" alt="" width="52" height="52"></span>
+          <span class="mosaic__tile"><img src="assets/icons/wpscan.svg" alt="" width="52" height="52"></span>
+          <span class="mosaic__tile"><img src="assets/icons/amass.svg" alt="" width="52" height="52"></span>
+          <span class="mosaic__tile"><img src="assets/icons/aircrack-ng.svg" alt="" width="52" height="52"></span>
+          <span class="mosaic__tile"><img src="assets/icons/zaproxy.svg" alt="" width="52" height="52"></span>
+        </div>
+        <div class="mosaic__tag"><i></i><b id="heroCount2">—</b> tools in the index</div>
       </div>
     </div>
   </section>
 
   <main class="wrap">
 
-    <!-- ========== Overview ========== -->
     <section class="section" id="overview">
       <div class="section-head">
-        <h2><span class="secno">01</span> What is TermuxVoid?</h2>
+        <div>
+          <span class="eyebrow">01 · Overview</span>
+          <h2>What is TermuxVoid?</h2>
+        </div>
       </div>
       <div class="overview-grid">
-        <div>
-          <p>Unofficial custom repository for Termux, available as both an <strong>APT (dpkg)</strong> and a <strong>Pacman</strong> repository. Provides extra tools not available in official Termux repos or excluded from it. Covers ethical hacking, bug bounty, cyber security, reverse engineering &amp; more. Compiled natively for Android. The very same tools install on either setup. <code>pkg install</code> works on both.</p>
-          <p>Every entry on this index is read live from the repository. Nothing is hard-coded, nothing is out of date.</p>
+        <div class="prose">
+          <p>TermuxVoid is an unofficial custom repository for Termux. It provides extra tools that are not in the official repos, or are excluded from them: ethical hacking, bug bounty, cyber security, reverse engineering, and Android utilities.</p>
+          <p>The same packages ship as both an <strong>APT (dpkg)</strong> and a <strong>Pacman</strong> repository. They are compiled natively for Android, so <code>pkg install</code> works on either setup.</p>
+          <p>Every tool on this page is read live from the repository index. Nothing is hard-coded and nothing is out of date.</p>
         </div>
-        <table class="stats-table" aria-label="Repository statistics">
-          <tbody>
-            <tr>
-              <td class="f">Tools Available</td>
-              <td class="v live"><span id="toolCount">—</span></td>
-            </tr>
-            <tr>
-              <td class="f">Auto Updates</td>
-              <td class="v">24/7 <span class="u">continuous</span></td>
-            </tr>
-            <tr>
-              <td class="f">Open Source</td>
-              <td class="v">100% <span class="u">BSD-3</span></td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="stats-card">
+          <div class="stats-card__row">
+            <span>Tools available</span>
+            <strong class="live" id="toolCount">—</strong>
+          </div>
+          <div class="stats-card__row">
+            <span>Updates</span>
+            <strong>24/7</strong>
+          </div>
+          <div class="stats-card__row">
+            <span>License</span>
+            <strong>BSD-3</strong>
+          </div>
+          <div class="stats-card__row">
+            <span>Install</span>
+            <strong class="mono">pkg install</strong>
+          </div>
+        </div>
+      </div>
+      <div class="syncline" id="syncLine">
+        <span class="sync"><i></i><span id="syncStamp">INDEX LOADED —</span></span>
+        <span class="aside" id="syncAside">reading the repository…</span>
       </div>
     </section>
 
-    <!-- ========== Browse Tools / Live Registry ========== -->
     <section class="section" id="tools">
       <div class="section-head">
-        <h2><span class="secno">02</span> Browse Tools</h2>
-      </div>
-      <p class="section__subtitle">The live registry, filtered straight from the repository index.</p>
-
-      <div class="searchrow">
-        <span class="prompt">$</span>
-        <div class="searchbar">
-          <input type="text" id="searchInput" placeholder="grep the index by name, description, or category" autocomplete="off" spellcheck="false" aria-label="Search tools">
-          <span class="hint" id="searchHint">/</span>
-          <button class="clear" id="searchClear" aria-label="Clear search">&times;</button>
+        <div>
+          <span class="eyebrow">02 · Live registry</span>
+          <h2>Browse tools</h2>
         </div>
+        <p class="section__subtitle">Filtered straight from the repository index. Search by name, category, or description.</p>
       </div>
-      <p class="search-meta" id="searchMeta">Loading tools…</p>
 
-      <div class="records" id="toolsGrid"><div class="loader"><div class="loader__spinner"></div><span>reading
-repository index…</span></div></div>
+      <div class="toolbar">
+        <div class="searchbar">
+          <svg class="searchbar__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+          <input type="text" id="searchInput" placeholder="Search tools by name, category, or description…" autocomplete="off" spellcheck="false" aria-label="Search tools">
+          <button class="clear" id="searchClear" type="button" aria-label="Clear search">&times;</button>
+        </div>
+        <div class="chips" id="groupChips" aria-label="Filter by category"></div>
+      </div>
+
+      <p class="search-meta" id="searchMeta" aria-live="polite">Loading tools…</p>
+      <div class="records" id="toolsGrid">
+        <div class="loader loader--full"><span class="loader__spinner"></span><span>Reading repository index…</span></div>
+      </div>
     </section>
 
-    <!-- ========== Installation ========== -->
     <section class="section" id="installation">
       <div class="section-head">
-        <h2><span class="secno">03</span> Add the Repository</h2>
-      </div>
-      <p class="section__subtitle">TermuxVoid ships the same tools for both APT (dpkg) and Pacman Termux. Add the repo that matches your setup, then install any tool with <code>pkg install</code>. It works on both.</p>
-
-      <div class="cmdplate cmdplate--primary">
-        <div class="cmdplate__label"><span>APT / dpkg setup</span><span class="idx">CMD.01</span><button class="cmdplate__copy" aria-label="Copy APT add-repository command" data-cmd="# Add APT repository&#10;curl -sL https://github.com/termuxvoid/repo/raw/main/install.sh | bash">Copy</button></div>
-        <pre><code># Add APT repository
-curl -sL https://github.com/termuxvoid/repo/raw/main/install.sh | bash</code></pre>
+        <div>
+          <span class="eyebrow">03 · Setup</span>
+          <h2>Add the repository</h2>
+        </div>
+        <p class="section__subtitle">Pick the setup that matches your Termux install, then install any tool with <code>pkg install</code>.</p>
       </div>
 
       <div class="cmdplate cmdplate--primary">
-        <div class="cmdplate__label"><span>Pacman setup</span><span class="idx">CMD.02</span><button class="cmdplate__copy" aria-label="Copy Pacman add-repository command" data-cmd="# Add Pacman repository&#10;curl -sL https://github.com/termuxvoid/pacman-repo/raw/main/install-repo.sh | bash">Copy</button></div>
-        <pre><code># Add Pacman repository
-curl -sL https://github.com/termuxvoid/pacman-repo/raw/main/install-repo.sh | bash</code></pre>
+        <div class="cmdplate__label"><span>APT / dpkg setup</span><span class="idx">CMD.01</span><button class="cmdplate__copy" type="button" data-copy="curl -fsSL https://v.gd/termuxvoid_apt | bash">Copy</button></div>
+        <pre><code>curl -fsSL https://v.gd/termuxvoid_apt | bash</code></pre>
+      </div>
+
+      <div class="cmdplate cmdplate--primary">
+        <div class="cmdplate__label"><span>Pacman setup</span><span class="idx">CMD.02</span><button class="cmdplate__copy" type="button" data-copy="curl -fsSL https://v.gd/termuxvoid_pacman | bash">Copy</button></div>
+        <pre><code>curl -fsSL https://v.gd/termuxvoid_pacman | bash</code></pre>
       </div>
 
       <div class="cmdplate">
-        <div class="cmdplate__label"><span>Install any tool · APT &amp; Pacman</span><span class="idx">CMD.03</span><button class="cmdplate__copy" aria-label="Copy install command template" data-cmd="pkg install &lt;tool-name&gt;">Copy</button></div>
+        <div class="cmdplate__label"><span>Install any tool</span><span class="idx">CMD.03</span><button class="cmdplate__copy" type="button" data-copy="pkg install &lt;tool-name&gt;">Copy</button></div>
         <pre><code>pkg install &lt;tool-name&gt;</code></pre>
       </div>
 
       <div class="cmdplate cmdplate--live">
-        <div class="cmdplate__label"><span>Example install</span><span class="idx">CMD.04</span><button class="cmdplate__copy" aria-label="Copy example install command" data-cmd="pkg install metasploit-framework">Copy</button></div>
+        <div class="cmdplate__label"><span>Example</span><span class="idx">CMD.04</span><button class="cmdplate__copy" type="button" data-copy="pkg install metasploit-framework">Copy</button></div>
         <pre><code>pkg install metasploit-framework</code></pre>
       </div>
 
-      <p class="inst-sub">On a full Pacman setup you can also use <code>pacman -S &lt;tool-name&gt;</code> directly. Repo sources:
-        <a href="https://github.com/termuxvoid/repo" target="_blank" rel="noopener">APT repo</a> &middot;
+      <p class="inst-sub">On a full Pacman setup you can also use <code>pacman -S &lt;tool-name&gt;</code>. Sources:
+        <a href="https://github.com/termuxvoid/repo" target="_blank" rel="noopener">APT repo</a> ·
         <a href="https://github.com/termuxvoid/pacman-repo" target="_blank" rel="noopener">Pacman repo</a>
       </p>
     </section>
 
-    <!-- ========== FAQ / Registry notes ========== -->
     <section class="section" id="faq">
       <div class="section-head">
-        <h2><span class="secno">04</span> Registry Notes &amp; FAQ</h2>
+        <div>
+          <span class="eyebrow">04 · Notes</span>
+          <h2>Registry notes &amp; FAQ</h2>
+        </div>
       </div>
 
       <details class="note">
         <summary>Are these tools legal to use?</summary>
         <div class="note__body">
-          <p>All tools are for <strong>legal security research and ethical hacking purposes only</strong>. Always obtain proper authorization before testing systems you do not own.</p>
+          <p>All tools are for <strong>legal security research and ethical hacking</strong> only. Always get permission before testing systems you do not own.</p>
         </div>
       </details>
 
@@ -229,13 +209,13 @@ curl -sL https://github.com/termuxvoid/pacman-repo/raw/main/install-repo.sh | ba
       </details>
 
       <details class="note">
-        <summary>Can I request new tools?</summary>
+        <summary>Can I request a new tool?</summary>
         <div class="note__body">
-          <p>Yes! Submit requests via:</p>
+          <p>Yes. Use GitHub Issues, Telegram, or email:</p>
           <ul>
             <li><a href="https://github.com/TermuxVoid/repo/issues">GitHub Issues</a></li>
-            <li>Telegram <a href="https://t.me/nullxvoid">@nullxvoid</a></li>
-            <li>Email: <a href="mailto:termuxvoid@gmail.com">termuxvoid@gmail.com</a></li>
+            <li>Telegram <a href="https://t.me/termuxvoid">@termuxvoid</a></li>
+            <li>Email <a href="mailto:termuxvoid@gmail.com">termuxvoid@gmail.com</a></li>
           </ul>
         </div>
       </details>
@@ -243,35 +223,51 @@ curl -sL https://github.com/termuxvoid/pacman-repo/raw/main/install-repo.sh | ba
       <details class="note">
         <summary>How do I report a broken package?</summary>
         <div class="note__body">
-          <p>Open an issue on <a href="https://github.com/TermuxVoid/repo/issues">GitHub</a> with the tool name and error output. We aim to fix reported issues within 24 hours.</p>
+          <p>Open an issue on <a href="https://github.com/TermuxVoid/repo/issues">GitHub</a> with the tool name and the error output. We aim to fix reported issues within 24 hours.</p>
         </div>
       </details>
     </section>
 
-    <!-- ========== Support / Contact desk ========== -->
     <section class="section" id="support">
       <div class="section-head">
-        <h2><span class="secno">05</span> Support &amp; Community</h2>
+        <div>
+          <span class="eyebrow">05 · Community</span>
+          <h2>Support &amp; community</h2>
+        </div>
       </div>
       <div class="desk">
-        <a href="https://t.me/nullxvoid" target="_blank" rel="noopener">Telegram &nearr;</a>
-        <a href="https://youtube.com/@alienkrishnorg" target="_blank" rel="noopener">YouTube &nearr;</a>
-        <a href="https://github.com/TermuxVoid/repo/issues" target="_blank" rel="noopener">GitHub Issues &nearr;</a>
+        <a href="https://t.me/termuxvoid" target="_blank" rel="noopener">
+          <span class="desk__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="m21 3-9.5 18-2.5-7-6-2.5L21 3Z"/><path d="m9 14 5-5"/></svg></span>
+          <span><b>Telegram</b><small>@termuxvoid</small></span>
+          <span class="desk__arrow">↗</span>
+        </a>
+        <a href="https://youtube.com/@alienkrishnorg" target="_blank" rel="noopener">
+          <span class="desk__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="4"/><path d="m10 9 5 3-5 3V9Z"/></svg></span>
+          <span><b>YouTube</b><small>@alienkrishnorg</small></span>
+          <span class="desk__arrow">↗</span>
+        </a>
+        <a href="https://github.com/TermuxVoid/repo/issues" target="_blank" rel="noopener">
+          <span class="desk__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="2.5"/><circle cx="18" cy="6" r="2.5"/><circle cx="12" cy="18" r="2.5"/><path d="M6 8.5v2a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-2M12 12.5v3"/></svg></span>
+          <span><b>GitHub</b><small>Report an issue</small></span>
+          <span class="desk__arrow">↗</span>
+        </a>
       </div>
-      <p class="desk-note">Star the repo &middot; Report issues responsibly &middot; Share with the community</p>
+      <p class="desk-note">Star the repo · Report issues responsibly · Share with the community</p>
     </section>
 
   </main>
 
-  <!-- ========== Colophon / Footer ========== -->
   <footer class="colophon">
     <div class="colophon__grid">
-      <div>
-        <h3>TermuxVoid</h3>
-        <p>Security tools excluded from official Termux repos, plus custom builds. Built for security researchers.</p>
+      <div class="colophon__brand">
+        <a class="masthead__brand" href="#top">
+          <span class="mark"><img src="assets/logo.png" alt="" width="28" height="28"></span>
+          <span class="wordmark">TermuxVoid</span>
+        </a>
+        <p>Security tools for Termux. Built for security researchers.</p>
       </div>
       <div>
-        <h3>Quick Links</h3>
+        <h3>Site</h3>
         <ul>
           <li><a href="#overview">Overview</a></li>
           <li><a href="#tools">Tools</a></li>
@@ -282,26 +278,25 @@ curl -sL https://github.com/termuxvoid/pacman-repo/raw/main/install-repo.sh | ba
       <div>
         <h3>Resources</h3>
         <ul>
-          <li><a href="https://github.com/termuxvoid/repo" target="_blank" rel="noopener">APT Repo</a></li>
-          <li><a href="https://github.com/termuxvoid/pacman-repo" target="_blank" rel="noopener">Pacman Repo</a></li>
-          <li><a href="https://github.com/TermuxVoid/repo/blob/main/assets/PACKAGES.md" target="_blank" rel="noopener">Package List</a></li>
+          <li><a href="https://github.com/termuxvoid/repo" target="_blank" rel="noopener">APT repository</a></li>
+          <li><a href="https://github.com/termuxvoid/pacman-repo" target="_blank" rel="noopener">Pacman repository</a></li>
+          <li><a href="https://github.com/TermuxVoid/repo/blob/main/assets/PACKAGES.md" target="_blank" rel="noopener">Package list</a></li>
           <li><a href="https://github.com/TermuxVoid/repo/blob/main/LICENSE" target="_blank" rel="noopener">License</a></li>
         </ul>
       </div>
     </div>
     <div class="colophon__credits">
-      &copy; 2026 TermuxVoid &middot; Maintained by <a href="https://github.com/Anon4You" target="_blank" rel="noopener">Alienkrishn</a> &middot; Registry renders live from the repository index.
+      © 2026 TermuxVoid · Maintained by <a href="https://github.com/Anon4You" target="_blank" rel="noopener">Alienkrishn</a>
     </div>
   </footer>
 
-  <!-- ========== Back to top ========== -->
-  <button class="back-to-top" id="backToTop" aria-label="Back to top">&uarr;</button>
+  <button class="back-to-top" id="backToTop" type="button" aria-label="Back to top">↑</button>
 
-  <!-- ========== Scripts ========== -->
+  <noscript><p class="noscript">JavaScript is required to load the live tool index.</p></noscript>
+
   <script src="js/packages.js"></script>
-  <script src="js/search.js"></script>
+  <script src="assets/icons/manifest.js"></script>
+  <script src="js/common.js"></script>
   <script src="js/app.js"></script>
-  <script src="js/theme.js"></script>
-
 </body>
 </html>

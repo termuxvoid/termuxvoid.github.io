@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="gron">
+<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="hsl(258,52%,31%)"/><stop offset="1" stop-color="hsl(258,58%,19%)"/></linearGradient></defs>
+<rect width="64" height="64" rx="14" fill="url(#g)"/>
+<rect x="1.1" y="1.1" width="61.8" height="61.8" rx="13" fill="none" stroke="hsl(258,78%,68%)" stroke-opacity=".38"/>
+<text x="32" y="41.5" text-anchor="middle" font-family="Inter, Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-size="27" font-weight="700" letter-spacing=".4" fill="#fff">GR</text><rect x="23" y="47" width="18" height="2.4" rx="1.2" fill="hsl(258,82%,72%)"/>
+</svg>

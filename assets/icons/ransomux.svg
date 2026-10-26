@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="ransomux">
+<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="hsl(293,52%,31%)"/><stop offset="1" stop-color="hsl(293,58%,19%)"/></linearGradient></defs>
+<rect width="64" height="64" rx="14" fill="url(#g)"/>
+<rect x="1.1" y="1.1" width="61.8" height="61.8" rx="13" fill="none" stroke="hsl(293,78%,68%)" stroke-opacity=".38"/>
+<g><rect x="16" y="30" width="32" height="22" rx="5" fill="#fff"/><path d="M23 30v-6a9 9 0 0 1 18 0v6" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round"/><circle cx="32" cy="39" r="2.5" fill="rgba(0,0,0,.55)"/><path d="M32 41v5" stroke="rgba(0,0,0,.55)" stroke-width="2.2"/></g>
+</svg>

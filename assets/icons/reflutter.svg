@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="reflutter">
+<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="hsl(329,52%,31%)"/><stop offset="1" stop-color="hsl(329,58%,19%)"/></linearGradient></defs>
+<rect width="64" height="64" rx="14" fill="url(#g)"/>
+<rect x="1.1" y="1.1" width="61.8" height="61.8" rx="13" fill="none" stroke="hsl(329,78%,68%)" stroke-opacity=".38"/>
+<g fill="#fff"><rect x="18" y="23" width="28" height="23" rx="7"/><path d="M25 23l-4-7M39 23l4-7" fill="none" stroke="#fff" stroke-width="2.8" stroke-linecap="round"/><circle cx="26" cy="32" r="2.2" fill="rgba(0,0,0,.55)"/><circle cx="38" cy="32" r="2.2" fill="rgba(0,0,0,.55)"/><path d="M18 31h28M18 38h28" stroke="rgba(0,0,0,.2)" stroke-width="1.2"/></g>
+</svg>

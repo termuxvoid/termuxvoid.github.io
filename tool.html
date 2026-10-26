@@ -3,264 +3,198 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#1d4ed8">
-  <meta name="description" content="Tool details for the TermuxVoid APT &amp; Pacman Repository - install security tools on Termux.">
-  <title>Tool Details - TermuxVoid</title>
-  <link rel="icon" href="https://github.com/termuxvoid/repo/raw/main/img/termuxvoid_logo.png" type="image/png">
-  <meta property="og:title" content="Tool Details - TermuxVoid">
-  <meta property="og:description" content="Tool details for the TermuxVoid APT &amp; Pacman Repository - install security tools on Termux.">
-  <meta property="og:image" content="https://github.com/termuxvoid/repo/raw/main/img/termuxvoid_logo.png">
+  <meta name="theme-color" content="#0b0712">
+  <script src="js/theme.js"></script>
+  <meta name="description" content="Tool details for the TermuxVoid repository. Install security tools on Termux with APT or Pacman.">
+  <title>Tool details — TermuxVoid</title>
+  <link rel="icon" href="assets/favicon.png" type="image/png">
+  <meta property="og:title" content="Tool details — TermuxVoid">
+  <meta property="og:description" content="Install Termux security tools from the TermuxVoid repository.">
+  <meta property="og:image" content="assets/logo.png">
   <meta property="og:type" content="website">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Martian+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
-  <script>
-    (function () {
-      try {
-        var saved = localStorage.getItem('termuxvoid-theme');
-        var theme = saved === 'dark' || saved === 'light'
-          ? saved
-          : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-        document.documentElement.setAttribute('data-theme', theme);
-        var meta = document.querySelector('meta[name="theme-color"]');
-        if (meta) meta.setAttribute('content', theme === 'dark' ? '#070a12' : '#1d4ed8');
-      } catch (e) {}
-    })();
-  </script>
 </head>
 <body>
 
-  <!-- ========== Masthead ========== -->
   <header class="masthead">
     <div class="masthead__inner">
       <a class="masthead__brand" href="index.html">
-        <span class="mark"><img src="https://github.com/termuxvoid/repo/raw/main/img/termuxvoid_logo.png" alt="TermuxVoid Logo" loading="lazy"></span>
+        <span class="mark"><img src="assets/logo.png" alt="TermuxVoid logo" width="28" height="28"></span>
         <span class="wordmark">TermuxVoid</span>
       </a>
-      <button class="theme-toggle" type="button" aria-label="Toggle theme"><span class="theme-ico"></span><span class="theme-lbl"></span></button>
-      <button class="masthead__menu" id="menuBtn" aria-label="Toggle menu" aria-expanded="false">MENU</button>
       <nav class="masthead__nav" id="navLinks" aria-label="Primary">
         <a href="index.html">Home</a>
         <a href="index.html#tools">Tools</a>
-        <a href="index.html#installation">Installation</a>
+        <a href="index.html#installation">Install</a>
         <a href="index.html#faq">FAQ</a>
+        <a href="index.html#support">Support</a>
       </nav>
+      <button class="theme-toggle" type="button" aria-label="Switch theme"><span class="theme-ico"></span><span class="theme-lbl"></span></button>
+      <button class="masthead__menu" id="menuBtn" type="button" aria-label="Toggle menu" aria-controls="navLinks" aria-expanded="false"><span></span><span></span><span></span></button>
     </div>
   </header>
 
-  <!-- ========== Record ========== -->
-  <main class="detail" id="toolDetail">
-    <div class="loader">
-      <div class="loader__spinner"></div>
-      <span>opening record<span class="loader__cursor"></span></span>
-    </div>
+  <main class="tool-page" id="toolDetail">
+    <div class="loader loader--full"><span class="loader__spinner"></span><span>Opening tool record…</span></div>
   </main>
+  <noscript><p class="noscript">JavaScript is required to open tool records.</p></noscript>
 
-  <!-- ========== Colophon ========== -->
   <footer class="colophon">
     <div class="colophon__grid">
-      <div>
-        <h3>TermuxVoid</h3>
-        <p>Security tools excluded from official Termux repos, plus custom builds. Built for security researchers.</p>
+      <div class="colophon__brand">
+        <a class="masthead__brand" href="index.html">
+          <span class="mark"><img src="assets/logo.png" alt="" width="28" height="28"></span>
+          <span class="wordmark">TermuxVoid</span>
+        </a>
+        <p>Security tools for Termux. Built for security researchers.</p>
       </div>
       <div>
-        <h3>Quick Links</h3>
+        <h3>Site</h3>
         <ul>
           <li><a href="index.html">Home</a></li>
           <li><a href="index.html#tools">Tools</a></li>
           <li><a href="index.html#installation">Installation</a></li>
+          <li><a href="index.html#faq">FAQ</a></li>
         </ul>
       </div>
       <div>
         <h3>Resources</h3>
         <ul>
-          <li><a href="https://github.com/termuxvoid/repo" target="_blank" rel="noopener">GitHub Repo</a></li>
-          <li><a href="https://github.com/TermuxVoid/repo/blob/main/assets/PACKAGES.md" target="_blank" rel="noopener">Package List</a></li>
+          <li><a href="https://github.com/termuxvoid/repo" target="_blank" rel="noopener">APT repository</a></li>
+          <li><a href="https://github.com/termuxvoid/pacman-repo" target="_blank" rel="noopener">Pacman repository</a></li>
+          <li><a href="https://github.com/TermuxVoid/repo/blob/main/assets/PACKAGES.md" target="_blank" rel="noopener">Package list</a></li>
         </ul>
       </div>
     </div>
     <div class="colophon__credits">
-      &copy; 2026 TermuxVoid &middot; Maintained by <a href="https://github.com/Anon4You" target="_blank" rel="noopener">Alienkrishn</a>
+      © 2026 TermuxVoid · Maintained by <a href="https://github.com/Anon4You" target="_blank" rel="noopener">Alienkrishn</a>
     </div>
   </footer>
 
-  <!-- ========== Toast ========== -->
-  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <button class="back-to-top" id="backToTop" type="button" aria-label="Back to top">↑</button>
 
-  <!-- ========== Scripts ========== -->
   <script src="js/packages.js"></script>
-  <script src="js/theme.js"></script>
+  <script src="assets/icons/manifest.js"></script>
+  <script src="js/common.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', async () => {
       const container = document.getElementById('toolDetail');
-      const params = new URLSearchParams(window.location.search);
-      const toolName = params.get('name');
+      const toolName = new URLSearchParams(window.location.search).get('name');
 
       if (!toolName) {
-        container.innerHTML = `
-          <a class="detail__back" href="index.html">&larr; back to the index</a>
-          <div class="error-state">
-            <div class="error-state__icon">!</div>
-            <p class="error-state__msg">[ERROR] no tool specified. Return to the index and search for a tool.</p>
-          </div>
-        `;
+        showError('No tool specified. Go back to the index and pick a tool.');
         return;
       }
 
       try {
         const packages = await PackagesParser.fetchPackages();
-        const tool = packages.find(p => p.name === toolName);
+        const tool = packages.find((item) => item.name === toolName);
 
         if (!tool) {
-          container.innerHTML = `
-            <a class="detail__back" href="index.html">&larr; back to the index</a>
-            <div class="error-state">
-              <div class="error-state__icon">!</div>
-              <p class="error-state__msg">[404] tool "<strong>${esc(toolName)}</strong>" not found in repository.</p>
-            </div>
-          `;
+          showError('Tool "' + toolName + '" was not found in the repository.');
           return;
         }
 
-        document.title = tool.name + ' - TermuxVoid';
-        const installCmd = `pkg install ${tool.name}`;
-        const deps = tool.depends ? tool.depends.split(',').map(d => d.trim()) : [];
-        const sizeKB = tool.size ? (parseInt(tool.size, 10) / 1024).toFixed(1) : '0';
-        const SEC_MAP = { net: 'net', network: 'net', networking: 'net', security: 'security', recon: 'recon', web: 'web', devel: 'devel', development: 'devel' };
-        const skey = SEC_MAP[String(tool.section || '').trim().toLowerCase()] || 'other';
-
-        const checksums = [
-          ['SHA256', tool.sha256],
-          ['SHA512', tool.sha512]
-        ].filter(([k, v]) => v);
+        document.title = tool.name + ' — TermuxVoid';
+        const description = tool.description || 'No description on file.';
+        const short = description.match(/^.*?[.!?](?:\s|$)/)?.[0] || description;
+        const rest = description.startsWith(short) ? description.slice(short.length).trim() : '';
+        const homepage = TV.safeUrl(tool.homepage);
+        const groupKey = TV.groupKey(tool.section);
+        const groupLabel = TV.groupLabel(tool.section);
+        const command = TV.installCommand(tool.name);
+        const deps = tool.depends ? tool.depends.split(',').map((item) => item.trim()).filter(Boolean) : [];
+        const metaDescription = document.querySelector('meta[name="description"]');
+        if (metaDescription) metaDescription.setAttribute('content', description.slice(0, 160));
 
         container.innerHTML = `
-          <a class="detail__back" href="index.html">&larr; back to the index</a>
+          <a class="detail__back" href="index.html">← All tools</a>
 
-          <div class="record-sheet" data-sec="${skey}">
-            <h1>${esc(tool.name)}</h1>
-            <p class="vline">v${esc(tool.version)} <span class="sec">// ${esc(tool.section)}</span></p>
+          <article class="tool-layout">
+            <aside class="tool-aside" data-group="${groupKey}">
+              <div class="tool-avatar"><img class="tool-icon" src="${TV.iconFor(tool.name)}" alt="" width="88" height="88"></div>
+              <p class="tool-aside__name mono">${TV.escapeHtml(tool.name)}</p>
+              <p class="tool-aside__version">v${TV.escapeHtml(tool.version)} <span>·</span> ${TV.escapeHtml(tool.architecture)}</p>
 
-            <div class="meta-grid">
-              <div class="meta-cell">
-                <div class="meta-cell__label">Section</div>
-                <div class="meta-cell__value mono">${esc(tool.section)}</div>
-              </div>
-              <div class="meta-cell">
-                <div class="meta-cell__label">Version</div>
-                <div class="meta-cell__value mono">${esc(tool.version)}</div>
-              </div>
-              <div class="meta-cell">
-                <div class="meta-cell__label">Architecture</div>
-                <div class="meta-cell__value mono">${esc(tool.architecture)}</div>
-              </div>
-              <div class="meta-cell">
-                <div class="meta-cell__label">Maintainer</div>
-                <div class="meta-cell__value">${esc(tool.maintainer)}</div>
-              </div>
-              <div class="meta-cell">
-                <div class="meta-cell__label">Size</div>
-                <div class="meta-cell__value mono">${sizeKB} KB</div>
-              </div>
-              ${tool.homepage ? `
-              <div class="meta-cell">
-                <div class="meta-cell__label">Homepage</div>
-                <div class="meta-cell__value"><a href="${esc(tool.homepage)}" target="_blank" rel="noopener">${esc(tool.homepage)}</a></div>
-              </div>` : ''}
-            </div>
+              <dl class="facts">
+                <div><dt>Category</dt><dd>${TV.escapeHtml(groupLabel)}</dd></div>
+                <div><dt>Section</dt><dd>${TV.escapeHtml(TV.sectionLabel(tool.section))}</dd></div>
+                <div><dt>Size</dt><dd>${TV.formatSize(tool.size)}</dd></div>
+                <div><dt>Maintainer</dt><dd>${TV.escapeHtml(tool.maintainer || '—')}</dd></div>
+              </dl>
 
-            <div class="form-block">
-              <h2>Description</h2>
-              <p>${esc(tool.description)}</p>
-            </div>
-
-            ${deps.length ? `
-            <div class="form-block">
-              <h2>Depends On</h2>
-              <div class="ref-row">
-                ${deps.map(d => `<span class="ref-tag">${esc(d)}</span>`).join('')}
+              <div class="aside-links">
+                ${homepage ? `<a href="${TV.escapeHtml(homepage)}" target="_blank" rel="noopener">Homepage <span>↗</span></a>` : ''}
+                <a href="https://github.com/termuxvoid/repo/tree/main/packages/${encodeURIComponent(tool.name)}/DEBIAN" target="_blank" rel="noopener">APT source <span>↗</span></a>
+                <a href="https://github.com/termuxvoid/pacman-repo/tree/main/packages/${encodeURIComponent(tool.name)}" target="_blank" rel="noopener">Pacman source <span>↗</span></a>
+                <a href="https://github.com/TermuxVoid/repo/blob/main/assets/PACKAGES.md" target="_blank" rel="noopener">Package list <span>↗</span></a>
               </div>
-            </div>` : ''}
+            </aside>
 
-            ${checksums.length ? `
-            <div class="form-block">
-              <h2>Checksum Verification</h2>
-              <table class="summ-table">
-                <tbody>
-                  ${checksums.map(([k, v]) => `
-                  <tr><td class="k">${k}</td><td class="v">${esc(v)}</td></tr>`).join('')}
-                </tbody>
-              </table>
-            </div>` : ''}
+            <div class="tool-doc">
+              <header class="doc-head">
+                <span class="eyebrow">Tool record · ${TV.escapeHtml(groupLabel)}</span>
+                <h1>${TV.escapeHtml(tool.name)}</h1>
+                <p class="doc-lede">${TV.escapeHtml(short)}</p>
+                <div class="doc-badges">
+                  <span class="badge">v${TV.escapeHtml(tool.version)}</span>
+                  <span class="badge">${TV.escapeHtml(tool.architecture || 'all')}</span>
+                  <span class="badge" data-group="${groupKey}">${TV.escapeHtml(groupLabel)}</span>
+                  <span class="badge">${TV.formatSize(tool.size)}</span>
+                </div>
+              </header>
 
-            <div class="form-block">
-              <h2>Install</h2>
-              <div class="cmdplate">
-                <div class="cmdplate__label"><span>from the terminal</span><span class="idx">CMD</span><button class="cmdplate__copy" aria-label="Copy install command" data-cmd="${esc(installCmd)}">Copy</button></div>
-                <pre><code>$ ${esc(installCmd)}</code></pre>
-              </div>
-            </div>
+              <section class="doc-block">
+                <h2>Install</h2>
+                <div class="cmdplate cmdplate--primary">
+                  <div class="cmdplate__label">
+                    <span>From the terminal</span>
+                    <span class="idx">CMD</span>
+                    <button class="cmdplate__copy" type="button" data-copy="${TV.escapeHtml(command)}">Copy</button>
+                  </div>
+                  <pre><code>$ ${TV.escapeHtml(command)}</code></pre>
+                </div>
+              </section>
 
-            <div class="detail__actions">
-              ${tool.homepage ? `
-              <a class="btn btn--ghost" href="${esc(tool.homepage)}" target="_blank" rel="noopener">homepage &nearr;</a>` : ''}
-              <div class="source-group">
-                <span class="lbl">source:</span>
-                <a class="btn btn--paper" href="https://github.com/termuxvoid/repo/tree/main/packages/${encodeURIComponent(tool.name)}/DEBIAN" target="_blank" rel="noopener">APT &nearr;</a>
-                <a class="btn btn--paper" href="https://github.com/termuxvoid/pacman-repo/tree/main/packages/${encodeURIComponent(tool.name)}" target="_blank" rel="noopener">Pacman &nearr;</a>
+              ${rest ? `
+              <section class="doc-block">
+                <h2>Description</h2>
+                <p>${TV.escapeHtml(rest)}</p>
+              </section>` : ''}
+
+              ${deps.length ? `
+              <section class="doc-block">
+                <h2>Depends on</h2>
+                <div class="ref-row">${deps.map((dep) => `<span class="ref-tag">${TV.escapeHtml(dep)}</span>`).join('')}</div>
+              </section>` : ''}
+
+              <div class="doc-actions">
+                ${homepage ? `<a class="btn btn--ghost" href="${TV.escapeHtml(homepage)}" target="_blank" rel="noopener">Open homepage ↗</a>` : ''}
+                <a class="btn btn--paper" href="index.html#tools">Back to all tools</a>
               </div>
             </div>
-          </div>
-        `;
-      } catch (err) {
-        container.innerHTML = `
-          <a class="detail__back" href="index.html">&larr; back to the index</a>
-          <div class="error-state">
-            <div class="error-state__icon">!</div>
-            <p class="error-state__msg">[ERROR] failed to open record: ${esc(err.message)}</p>
-            <button class="error-state__retry" onclick="location.reload()">retry &rarr;</button>
-          </div>
-        `;
+          </article>`;
+      } catch (error) {
+        showError('Could not open the tool record: ' + error.message, true);
       }
 
-      // Menu toggle
-      const btn = document.getElementById('menuBtn');
-      const nav = document.getElementById('navLinks');
-      btn.addEventListener('click', () => {
-        const open = nav.classList.toggle('open');
-        btn.setAttribute('aria-expanded', String(open));
-      });
-      nav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
-        nav.classList.remove('open');
-        btn.setAttribute('aria-expanded', 'false');
-      }));
-      document.addEventListener('click', (e) => {
-        if (!e.target.closest('.masthead__inner')) {
-          nav.classList.remove('open');
-          btn.setAttribute('aria-expanded', 'false');
-        }
-      });
-
-      // Copy (command plates + toast)
-      document.addEventListener('click', (e) => {
-        const copy = e.target.closest('.cmdplate__copy');
-        if (!copy) return;
-        const cmd = copy.dataset.cmd;
-        navigator.clipboard.writeText(cmd).then(() => {
-          copy.textContent = 'Copied!';
-          copy.classList.add('copied');
-          setTimeout(() => { copy.textContent = 'Copy'; copy.classList.remove('copied'); }, 1500);
-        });
-      });
+      function showError(message, retry) {
+        container.innerHTML = `
+          <a class="detail__back" href="index.html">← All tools</a>
+          <div class="error-state">
+            <span class="error-state__icon">!</span>
+            <p class="error-state__msg">${TV.escapeHtml(message)}</p>
+            ${retry ? '<button class="btn btn--small" type="button" data-action="reload">Try again</button>' : ''}
+          </div>`;
+      }
     });
 
-    function esc(str) {
-      const div = document.createElement('div');
-      div.textContent = str;
-      return div.innerHTML;
-    }
+    document.addEventListener('click', (event) => {
+      if (event.target.closest('[data-action="reload"]')) window.location.reload();
+    });
   </script>
-
 </body>
 </html>

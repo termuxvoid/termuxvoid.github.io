@@ -1,286 +1,300 @@
 /* ============================================
-   TermuxVoid - Main Application (Live Registry)
+   TermuxVoid - live registry
    ============================================ */
 
 const App = (() => {
+  const PREVIEW = 9;
   let allPackages = [];
-  const PREVIEW = 24;
+  let group = 'all';
+  let showAll = false;
+  let query = '';
+  let debounceTimer = null;
 
   async function init() {
-    setupMenuToggle();
+    setupSearch();
+    setupGroups();
     setupScrollChrome();
     await loadPackages();
   }
 
-  /* --- Packages Loading --- */
   async function loadPackages() {
-    const container = document.getElementById('toolsGrid');
-    container.innerHTML = `
-      <div class="loader loader--full">
-        <div class="loader__spinner"></div>
-        <span>reading repository index<span class="loader__cursor"></span></span>
-      </div>
-    `;
+    const grid = document.getElementById('toolsGrid');
+    grid.innerHTML = `<div class="loader loader--full"><span class="loader__spinner"></span><span>Reading repository index…</span></div>`;
 
     try {
       allPackages = await PackagesParser.fetchPackages();
       allPackages.sort((a, b) => a.name.localeCompare(b.name));
-
+      renderGroups();
       updateStats(allPackages.length);
-      stampSync(allPackages.length);
-      updateMeta(allPackages.length, allPackages.length, '');
-      renderTools(container, allPackages, '');
+      stampIndex(allPackages.length);
+      applyFilters();
+    } catch (error) {
+      gridError(grid, error.message);
+    }
+  }
 
-      Search.init(allPackages, (results, query) => {
-        const grid = document.getElementById('toolsGrid');
-        updateMeta(results.length, allPackages.length, query);
-        renderTools(grid, results, query);
+  function setupSearch() {
+    const input = document.getElementById('searchInput');
+    const clear = document.getElementById('searchClear');
+    if (!input || !clear) return;
+
+    input.addEventListener('input', () => {
+      query = input.value;
+      clear.classList.toggle('visible', query.length > 0);
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(() => {
+        showAll = false;
+        applyFilters();
+      }, 120);
+    });
+
+    clear.addEventListener('click', () => {
+      input.value = '';
+      query = '';
+      clear.classList.remove('visible');
+      showAll = false;
+      applyFilters();
+      input.focus();
+    });
+
+    document.addEventListener('keydown', (event) => {
+      const typing = /^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement.tagName);
+      if (event.key === '/' && !typing) {
+        event.preventDefault();
+        input.focus();
+      }
+      if (event.key === 'Escape' && document.activeElement === input) input.blur();
+    });
+  }
+
+  function setupGroups() {
+    const holder = document.getElementById('groupChips');
+    if (!holder) return;
+    holder.addEventListener('click', (event) => {
+      const chip = event.target.closest('[data-group]');
+      if (!chip || chip.dataset.group === group) return;
+      group = chip.dataset.group;
+      showAll = false;
+      holder.querySelectorAll('[data-group]').forEach((item) => {
+        const active = item.dataset.group === group;
+        item.classList.toggle('is-active', active);
+        item.setAttribute('aria-pressed', String(active));
       });
-    } catch (err) {
-      gridError(container, err.message);
-    }
+      applyFilters();
+    });
   }
 
-  /* --- Sync stamp: the live-repo proof --- */
-  function stampSync(count) {
-    const now = new Date();
-    const iso = now.toISOString().replace('T', ' ').slice(0, 16) + ' UTC';
-    const stamp = document.getElementById('syncStamp');
-    const aside = document.getElementById('syncAside');
-    const line = document.getElementById('syncLine');
-    if (stamp) stamp.textContent = 'LATEST SYNC: ' + iso;
-    if (aside) aside.textContent = 'TOOLS: ' + count + ' · AUTO-UPDATED 24/7';
-    if (line) {
-      line.classList.remove('syncline-anim');
-      void line.offsetWidth;
-      line.classList.add('syncline-anim');
-    }
+  function renderGroups() {
+    const holder = document.getElementById('groupChips');
+    if (!holder) return;
+
+    const counts = {};
+    allPackages.forEach((pkg) => {
+      const key = TV.groupKey(pkg.section);
+      counts[key] = (counts[key] || 0) + 1;
+    });
+
+    holder.innerHTML = TV.GROUPS.filter((item) => item.key === 'all' || counts[item.key])
+      .map((item) => {
+        const count = item.key === 'all' ? allPackages.length : counts[item.key];
+        return `<button type="button" class="chip${item.key === group ? ' is-active' : ''}" data-group="${item.key}" aria-pressed="${item.key === group}">
+          <img src="${TV.categoryIcon(item.key)}" alt="" width="17" height="17">
+          <span>${item.label}</span><b>${count}</b>
+        </button>`;
+      })
+      .join('');
+
   }
 
-  /* --- Rendering --- */
-  function renderTools(container, packages, query) {
-    if (packages.length === 0) {
-      container.innerHTML = `
-        <div class="empty-state empty-state--full" style="grid-column:1/-1">
-          <div class="empty-state__icon">&#9633;</div>
-          <p>No records match "<strong>${escapeHtml(query)}</strong>" — try another term.</p>
-        </div>
-      `;
+  function applyFilters() {
+    const needle = query.trim().toLowerCase();
+    const results = allPackages.filter((pkg) => {
+      if (group !== 'all' && TV.groupKey(pkg.section) !== group) return false;
+      if (!needle) return true;
+      return [pkg.name, pkg.description, pkg.section, TV.groupLabel(pkg.section)]
+        .join(' ')
+        .toLowerCase()
+        .includes(needle);
+    });
+
+    const grid = document.getElementById('toolsGrid');
+    renderTools(grid, results, needle);
+    updateMeta(results.length, allPackages.length, needle);
+  }
+
+  function renderTools(container, packages, needle) {
+    if (!packages.length) {
+      const label = query.trim()
+        ? 'No tools match “' + TV.escapeHtml(query.trim()) + '”'
+        : 'No tools in ' + TV.escapeHtml(TV.groupMeta(group).label);
+      container.innerHTML = `<div class="empty-state empty-state--full">
+        <span class="empty-state__icon">?</span>
+        <p>${label}.</p>
+        <button type="button" class="btn btn--small" data-action="reset">Clear filters</button>
+      </div>`;
       return;
     }
 
-    const total = allPackages.length;
-    const capped = !query && total > PREVIEW;
+    const capped = !needle && group === 'all' && !showAll && packages.length > PREVIEW;
     const shown = capped ? packages.slice(0, PREVIEW) : packages;
 
-    let html = shown.map((pkg, i) => toolRecord(pkg, i + 1)).join('');
+    let html = shown.map((pkg) => toolRecord(pkg)).join('');
     if (capped) {
-      html += `
-        <div class="viewmore" style="grid-column:1/-1">
-          <button type="button" class="btn btn--paper" data-action="viewall" aria-label="Render the full index of ${total} tools">view full index &mdash; ${total} records <span class="arrow">&darr;</span></button>
-        </div>
-      `;
+      html += `<div class="viewmore">
+        <button type="button" class="btn btn--paper" data-action="viewall">View all ${packages.length} tools <span class="arrow">↓</span></button>
+      </div>`;
     }
     container.innerHTML = html;
   }
 
-  function viewAll() {
-    const grid = document.getElementById('toolsGrid');
-    if (!grid || !allPackages.length) return;
-    grid.innerHTML = allPackages.map((pkg, i) => toolRecord(pkg, i + 1)).join('');
-    updateMeta(allPackages.length, allPackages.length, '');
-  }
+  function toolRecord(pkg) {
+    const name = TV.escapeHtml(pkg.name);
+    const command = TV.installCommand(pkg.name);
+    const groupKey = TV.groupKey(pkg.section);
+    const groupLabel = TV.groupLabel(pkg.section);
+    const homepage = TV.safeUrl(pkg.homepage);
+    const link = homepage
+      ? `<a class="record__link" href="${TV.escapeHtml(homepage)}" target="_blank" rel="noopener">Homepage ↗</a>`
+      : '';
 
-  const SEC_KEY = {
-    net: 'net',
-    network: 'net',
-    networking: 'net',
-    security: 'security',
-    recon: 'recon',
-    web: 'web',
-    devel: 'devel',
-    development: 'devel',
-  };
-
-  function secKey(section) {
-    return SEC_KEY[String(section || '').trim().toLowerCase()] || 'other';
-  }
-
-  function toolRecord(pkg, pos) {
-    const delay = Math.min((pos - 1) * 0.035, 0.63);
-    const installCmd = 'pkg install ' + pkg.name;
-    const idx = String(pos).padStart(3, '0');
-    const skey = secKey(pkg.section);
-    const section =
-      pkg.section && pkg.section !== 'other'
-        ? `<span class="record__sec" data-sec="${skey}">${escapeHtml(pkg.section)}</span>`
-        : '';
-    const homepage = pkg.homepage
-      ? `<a class="record__link" href="${escapeHtml(pkg.homepage)}" target="_blank" rel="noopener">homepage &nearr;</a>`
-      : `<span class="record__link" aria-hidden="true">no homepage on file</span>`;
-
-    return `
-      <article class="record" data-sec="${skey}" style="animation-delay:${delay}s">
-        <div class="record__head">
-          <a class="record__name" href="tool.html?name=${encodeURIComponent(pkg.name)}"><span class="n">[${idx}]</span>${escapeHtml(pkg.name)}</a>
-          ${pkg.version ? `<span class="record__ver">v${escapeHtml(pkg.version)}</span>` : ''}
+    return `<article class="record" data-group="${groupKey}">
+      <div class="record__top">
+        <span class="record__icon"><img class="tool-icon" src="${TV.iconFor(pkg.name)}" alt="" width="40" height="40" loading="lazy"></span>
+        <div class="record__title">
+          <a class="record__name" href="tool.html?name=${encodeURIComponent(pkg.name)}">${name}</a>
+          ${pkg.version ? `<span class="record__ver">v${TV.escapeHtml(pkg.version)}</span>` : ''}
         </div>
-        ${section}
-        <p class="record__desc">${escapeHtml(pkg.description)}</p>
-        <div class="record__foot">
-          ${homepage}
-          <button type="button" class="record__install" data-cmd="${escapeHtml(installCmd)}" aria-label="Copy install command for ${escapeHtml(pkg.name)}">$ ${escapeHtml(installCmd)}</button>
+        <span class="record__cat">${TV.escapeHtml(groupLabel)}</span>
+      </div>
+      <p class="record__desc">${TV.escapeHtml(pkg.description)}</p>
+      <div class="record__foot">
+        <button type="button" class="record__install" data-copy="${TV.escapeHtml(command)}" aria-label="Copy install command for ${name}">$ ${TV.escapeHtml(command)}</button>
+        <div class="record__links">
+          ${link}
+          <a class="record__more" href="tool.html?name=${encodeURIComponent(pkg.name)}">Details <span aria-hidden="true">→</span></a>
         </div>
-      </article>
-    `;
+      </div>
+    </article>`;
   }
 
-  /* --- Meta --- */
-  function updateMeta(shown, total, query) {
+  function updateMeta(shown, total, needle) {
     const meta = document.getElementById('searchMeta');
     if (!meta) return;
-    if (query) {
-      meta.innerHTML = `SHOWING <strong>${shown}</strong> OF <strong>${total}</strong> RECORDS FOR &ldquo;${escapeHtml(query)}&rdquo;`;
-    } else if (total > PREVIEW) {
-      meta.innerHTML = `SHOWING <strong>${PREVIEW}</strong> OF <strong>${total}</strong> RECORDS &middot; SEARCH OR VIEW THE FULL INDEX`;
+    if (needle) {
+      meta.innerHTML = `<strong>${shown}</strong> of <strong>${total}</strong> tools for “${TV.escapeHtml(query.trim())}”`;
+    } else if (group !== 'all') {
+      meta.innerHTML = `<strong>${shown}</strong> tools in <strong>${TV.escapeHtml(TV.groupMeta(group).label)}</strong>`;
+    } else if (total > PREVIEW && !showAll) {
+      meta.innerHTML = `Showing <strong>${PREVIEW}</strong> of <strong>${total}</strong> tools · search or view all`;
     } else {
-      meta.innerHTML = `<strong>${total}</strong> TOOL RECORDS AVAILABLE &middot; SORTED ALPHABETICALLY`;
+      meta.innerHTML = `<strong>${total}</strong> tools · sorted alphabetically`;
     }
   }
 
-  /* --- Stats --- */
   function updateStats(count) {
-    const el = document.getElementById('toolCount');
-    if (!el) return;
-    const reduce =
-      window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (reduce) {
+    document.querySelectorAll('#heroCount, #heroCount2').forEach((el) => {
       el.textContent = count;
+    });
+    const input = document.getElementById('searchInput');
+    if (input) input.placeholder = 'Search ' + count + ' security tools…';
+    const countEl = document.getElementById('toolCount');
+    if (!countEl) return;
+
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      countEl.textContent = count;
       return;
     }
+
     const start = performance.now();
-    const dur = 640;
-    const step = (t) => {
-      const p = Math.min((t - start) / dur, 1);
-      el.textContent = Math.round((1 - Math.pow(1 - p, 3)) * count);
-      if (p < 1) requestAnimationFrame(step);
+    const step = (now) => {
+      const progress = Math.min((now - start) / 620, 1);
+      countEl.textContent = Math.round((1 - Math.pow(1 - progress, 3)) * count);
+      if (progress < 1) requestAnimationFrame(step);
     };
     requestAnimationFrame(step);
   }
 
-  /* --- Error --- */
+  function stampIndex(count) {
+    const now = new Date();
+    const stamp = document.getElementById('syncStamp');
+    const aside = document.getElementById('syncAside');
+    if (stamp) {
+      stamp.textContent = 'INDEX LOADED ' + now.toISOString().slice(11, 16) + ' UTC';
+    }
+    if (aside) aside.textContent = count + ' TOOLS · APT + PACMAN';
+  }
+
   function gridError(container, message) {
-    container.innerHTML = `
-      <div class="error-state error-state--full" style="grid-column:1/-1">
-        <div class="error-state__icon">&#9888;</div>
-        <p class="error-state__msg">[ERROR] failed to read repository index: ${escapeHtml(message)}</p>
-        <button class="error-state__retry" onclick="App.retry()">retry &rarr;</button>
-      </div>
-    `;
+    container.innerHTML = `<div class="error-state error-state--full">
+      <span class="error-state__icon">!</span>
+      <p class="error-state__msg">Could not read the repository index: ${TV.escapeHtml(message)}</p>
+      <button type="button" class="btn btn--small" data-action="retry">Try again</button>
+    </div>`;
     const aside = document.getElementById('syncAside');
     if (aside) aside.textContent = 'INDEX UNREADABLE';
+    const meta = document.getElementById('searchMeta');
+    if (meta) meta.textContent = 'Index unavailable.';
   }
 
-  /* --- Copy (install buttons + command plates) --- */
-  function copyCmd(btn) {
-    const cmd = btn.dataset.cmd || '';
-    if (!cmd) return;
-    navigator.clipboard.writeText(cmd).then(() => {
-      const orig = btn.textContent;
-      btn.textContent = 'Copied!';
-      btn.classList.add('copied');
-      setTimeout(() => {
-        btn.textContent = orig;
-        btn.classList.remove('copied');
-      }, 1500);
+  function reset() {
+    query = '';
+    group = 'all';
+    showAll = false;
+    const input = document.getElementById('searchInput');
+    const clear = document.getElementById('searchClear');
+    if (input) input.value = '';
+    if (clear) clear.classList.remove('visible');
+    document.querySelectorAll('#groupChips [data-group]').forEach((chip) => {
+      const active = chip.dataset.group === 'all';
+      chip.classList.toggle('is-active', active);
+      chip.setAttribute('aria-pressed', String(active));
     });
+    applyFilters();
   }
 
-  /* --- Retry --- */
-  function retry() {
-    loadPackages();
-  }
-
-  /* --- Menu Toggle --- */
-  function setupMenuToggle() {
-    const btn = document.getElementById('menuBtn');
-    const nav = document.getElementById('navLinks');
-    if (!btn || !nav) return;
-
-    btn.addEventListener('click', () => {
-      const open = nav.classList.toggle('open');
-      btn.setAttribute('aria-expanded', String(open));
-    });
-    nav.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => {
-      nav.classList.remove('open');
-      btn.setAttribute('aria-expanded', 'false');
-    }));
-    document.addEventListener('click', (e) => {
-      if (!e.target.closest('.masthead__inner')) {
-        nav.classList.remove('open');
-        btn.setAttribute('aria-expanded', 'false');
-      }
-    });
-  }
-
-  /* --- Scroll chrome: back-to-top, document-feed rail, section scrollspy --- */
   function setupScrollChrome() {
-    const btn = document.getElementById('backToTop');
     const feed = document.getElementById('feed');
-    const navLinks = Array.prototype.slice.call(
-      document.querySelectorAll('.masthead__nav a[href^="#"]')
-    );
+    const navLinks = Array.from(document.querySelectorAll('.masthead__nav a[href^="#"]'));
     const sections = navLinks
-      .map((a) => document.querySelector(a.getAttribute('href')))
+      .map((link) => document.querySelector(link.getAttribute('href')))
       .filter(Boolean);
 
     function onScroll() {
       const y = window.scrollY;
-      if (btn) btn.classList.toggle('visible', y > 400);
       if (feed) {
         const max = document.documentElement.scrollHeight - window.innerHeight;
         feed.style.transform = 'scaleY(' + (max > 0 ? Math.min(y / max, 1) : 0) + ')';
       }
-      if (sections.length) {
-        let current = sections[0];
-        for (let i = 0; i < sections.length; i++) {
-          if (sections[i].offsetTop - 140 <= y) current = sections[i];
-        }
-        navLinks.forEach((a, i) => a.classList.toggle('active', sections[i] === current));
-      }
+      if (!sections.length) return;
+      let current = sections[0];
+      sections.forEach((section) => {
+        if (section.offsetTop - 150 <= y) current = section;
+      });
+      navLinks.forEach((link, index) => {
+        const active = sections[index] === current;
+        link.classList.toggle('active', active);
+        if (active) link.setAttribute('aria-current', 'location');
+        else link.removeAttribute('aria-current');
+      });
     }
 
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', onScroll, { passive: true });
     onScroll();
+  }
 
-    if (btn) {
-      btn.addEventListener('click', () => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      });
+  document.addEventListener('click', (event) => {
+    const action = event.target.closest('[data-action]');
+    if (!action) return;
+    if (action.dataset.action === 'viewall') {
+      showAll = true;
+      applyFilters();
     }
-  }
+    if (action.dataset.action === 'retry') loadPackages();
+    if (action.dataset.action === 'reset') reset();
+  });
 
-  /* --- Utility --- */
-  function escapeHtml(str) {
-    const div = document.createElement('div');
-    div.textContent = str;
-    return div.innerHTML;
-  }
-
-  return { init, copyCmd, retry, viewAll };
+  return { init, reset };
 })();
 
 document.addEventListener('DOMContentLoaded', App.init);
-
-/* Copy buttons + view-all (delegated) */
-document.addEventListener('click', (e) => {
-  const va = e.target.closest('[data-action="viewall"]');
-  if (va) {
-    e.preventDefault();
-    App.viewAll();
-    return;
-  }
-  const btn = e.target.closest('.cmdplate__copy, .record__install');
-  if (btn) App.copyCmd(btn);
-});

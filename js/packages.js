@@ -14,7 +14,7 @@ const PackagesParser = (() => {
    * Continuation lines start with a single space.
    */
   function parse(text) {
-    const blocks = text.split(/\n\n+/).filter((b) => b.trim());
+    const blocks = text.split(/\r?\n\r?\n+/).filter((b) => b.trim());
     return blocks.map(parseBlock).filter((p) => p.name);
   }
 
@@ -22,7 +22,7 @@ const PackagesParser = (() => {
     const pkg = {};
     let currentKey = null;
 
-    for (const line of block.split('\n')) {
+    for (const line of block.split(/\r?\n/)) {
       if (line.startsWith(' ')) {
         // Continuation line — append to current field
         if (currentKey && pkg[currentKey] !== undefined) {
@@ -48,15 +48,9 @@ const PackagesParser = (() => {
       description: pkg.Description || '',
       homepage: pkg.Homepage || '',
       section: pkg.Section || 'other',
-      priority: pkg.Priority || '',
       depends: pkg.Depends || '',
       maintainer: pkg.Maintainer || '',
-      filename: pkg.Filename || '',
       size: pkg.Size || '0',
-      md5: pkg.MD5Sum || '',
-      sha1: pkg.SHA1 || '',
-      sha256: pkg.SHA256 || '',
-      sha512: pkg.SHA512 || '',
     };
   }
 
@@ -73,7 +67,7 @@ const PackagesParser = (() => {
       }
     } catch {}
 
-    const response = await fetch(PACKAGES_URL);
+    const response = await fetch(PACKAGES_URL, { signal: AbortSignal.timeout?.(15000) });
     if (!response.ok) {
       throw new Error(`Failed to fetch packages: ${response.status}`);
     }
