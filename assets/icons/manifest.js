@@ -163,6 +163,7 @@ window.TV_ICONS = {
   "openbullet": "openbullet.svg",
   "openbullet2": "openbullet2.svg",
   "openclaude": "openclaude.svg",
+  "opencode-v2": "opencode-v2.svg",
   "opencode": "opencode.svg",
   "ophcrack": "ophcrack.svg",
   "osintgram": "osintgram.svg",
