@@ -28,7 +28,7 @@ The interface uses a dark repository shell with a warm paper content area, an or
 | Feature | Description |
 |---|---|
 | **Live Registry** | Every tool, count, version, and dependency is fetched from the remote `Packages` index |
-| **Category Filters** | Filter by recon, network, web, exploitation, utilities, development, Android, crypto, OSINT, and other |
+| **Category Filters** | Filter by recon, network, tunnels, web, exploitation, passwords, AI, Android, crypto, OSINT, utilities, development, and other |
 | **Tool Icons** | SVG and PNG icons live in `assets/icons/`; a default icon is shown automatically when a package has no icon yet |
 | **Tool Detail Pages** | Record sheets with version, architecture, dependencies, install command, and source links |
 | **Search** | Search names, descriptions, sections, and categories; press `/` to focus and `Esc` to dismiss |
