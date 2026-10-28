@@ -17,7 +17,7 @@ window.TV_ICONS = {
   "antisplit": "antisplit.svg",
   "anubis": "anubis.svg",
   "apkeditor": "apkeditor.svg",
-  "apkgen-cli": "apkgen-cli.svg",
+  "apkgen-cli": "apkgen-cli.png",
   "apkleaks": "apkleaks.svg",
   "apkpatcher": "apkpatcher.svg",
   "apksearch": "apksearch.svg",
