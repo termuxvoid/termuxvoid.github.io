@@ -9,6 +9,7 @@ window.TV_ICONS = {
   "amass": "amass.svg",
   "andrax": "andrax.png",
   "androdos": "androdos.svg",
+  "android-ndk": "android-ndk.svg",
   "android-sdk": "android-sdk.svg",
   "androvirus": "androvirus.svg",
   "antigravity-cli": "antigravity-cli.png",
