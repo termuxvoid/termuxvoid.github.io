@@ -159,6 +159,7 @@ window.TV_ICONS = {
   "nuclei": "nuclei.svg",
   "numinfo": "numinfo.svg",
   "nvchad": "nvchad.svg",
+  "omniroute": "omniroute.svg",
   "onionsearch": "onionsearch.svg",
   "openbullet": "openbullet.svg",
   "openbullet2": "openbullet2.svg",
