@@ -52,6 +52,7 @@ window.TV_ICONS = {
   "codex-cli": "codex-cli.svg",
   "commix": "commix.svg",
   "copilot-cli": "copilot-cli.svg",
+  "craft-anything": "craft-anything.svg",
   "cronitor-cli": "cronitor-cli.png",
   "cupp": "cupp.svg",
   "d-tect": "d-tect.svg",
