@@ -63,6 +63,7 @@ window.TV_ICONS = {
   "darkterm": "darkterm.svg",
   "ddos": "ddos.svg",
   "deepseek-harness": "deepseek-harness.svg",
+  "dex2c": "dex2c.svg",
   "dirsearch": "dirsearch.svg",
   "dnscan": "dnscan.svg",
   "dnsrecon": "dnsrecon.svg",
