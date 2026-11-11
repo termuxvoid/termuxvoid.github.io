@@ -155,6 +155,7 @@ window.TV_ICONS = {
   "morphshell": "morphshell.svg",
   "moviebox-tui": "moviebox-tui.svg",
   "mtcr-apply": "mtcr-apply.svg",
+  "muse-cli": "muse-cli.png",
   "naabu": "naabu.svg",
   "nethunter-cli": "nethunter-cli.svg",
   "ngrok": "ngrok.svg",
