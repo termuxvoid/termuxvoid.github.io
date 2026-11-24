@@ -5,7 +5,7 @@
 <h1 align="center">TermuxVoid Website</h1>
 
 <p align="center">
-  Official landing page for the TermuxVoid Repository — security tools for Termux, available as both APT (dpkg) and Pacman repositories.
+  Official landing page for TermuxVoid, an independent third-party Termux software ecosystem — security tools for Termux, available as both APT (dpkg) and Pacman repositories.
 </p>
 
 <p align="center">
