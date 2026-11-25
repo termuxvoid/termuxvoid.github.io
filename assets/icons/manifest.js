@@ -252,6 +252,7 @@ window.TV_ICONS = {
   "tookie-osint": "tookie-osint.svg",
   "trufflehog": "trufflehog.png",
   "tte": "tte.svg",
+  "ttt": "ttt.svg",
   "tvpkg": "tvpkg.svg",
   "unfurl": "unfurl.svg",
   "user-scanner": "user-scanner.svg",
