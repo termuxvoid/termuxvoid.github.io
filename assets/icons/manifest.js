@@ -42,6 +42,7 @@ window.TV_ICONS = {
   "burpsuite-pro": "burpsuite-pro.svg",
   "burpsuite": "burpsuite.svg",
   "byakugan": "byakugan.svg",
+  "cadaver": "cadaver.svg",
   "catsay": "catsay.png",
   "cctvip": "cctvip.svg",
   "cdxsummary": "cdxsummary.svg",
