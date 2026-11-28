@@ -34,6 +34,7 @@ window.TV_ICONS = {
   "blackbox-framework": "blackbox-framework.svg",
   "blackhat": "blackhat.svg",
   "blesh": "blesh.svg",
+  "bloodyad": "bloodyad.png",
   "blutter": "blutter.svg",
   "breacher": "breacher.svg",
   "brutespray": "brutespray.svg",
