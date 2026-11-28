@@ -55,6 +55,7 @@ window.TV_ICONS = {
   "craft-anything": "craft-anything.svg",
   "cronitor-cli": "cronitor-cli.png",
   "cupp": "cupp.svg",
+  "cutter": "cutter.svg",
   "d-tect": "d-tect.svg",
   "dalfox": "dalfox.svg",
   "dark-phish": "dark-phish.svg",
