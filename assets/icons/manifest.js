@@ -199,6 +199,7 @@ window.TV_ICONS = {
   "qdl": "qdl.svg",
   "qrylz": "qrylz.svg",
   "qsreplace": "qsreplace.svg",
+  "quichash": "quichash.svg",
   "random-banner": "random-banner.svg",
   "rang3r": "rang3r.svg",
   "ransomux": "ransomux.svg",
